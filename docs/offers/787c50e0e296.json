@@ -1,0 +1,24 @@
+{
+  "id": "787c50e0e296",
+  "ts": 1758182499,
+  "price_usd": 99.0,
+  "royalty_bps": 250,
+  "receipt_url": "https://terryncew.github.io/COLE-Coherence-Layer-Engine-/receipt.latest.json",
+  "hash": "787c50e0e29689f2873301a288a4630adf638e44237f8f8d783dbeba51579b9a",
+  "summary": {
+    "claim": "NCA regenerator heals target after damage",
+    "status": "amber",
+    "why": "Fail reason: multiscale drift \u0394_scale=0.075 > 0.060 (edges too sharp \u2192 increase smoothing/coarse, or reduce pull)",
+    "policy": {
+      "license": "OLH-1.0",
+      "train": true,
+      "share": "internal",
+      "sale": true
+    },
+    "sig": {
+      "verified": false,
+      "pub": "",
+      "note": "missing sig/pub"
+    }
+  }
+}
