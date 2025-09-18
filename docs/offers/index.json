@@ -23,27 +23,4 @@
       }
     }
   },
-  {
-    "id": "demo00000001",
-    "ts": 1737150000,
-    "price_usd": 99,
-    "royalty_bps": 250,
-    "receipt_url": "https://terryncew.github.io/COLE-Coherence-Layer-Engine-/receipt.latest.json",
-    "hash": "demo_hash_just_for_ui",
-    "summary": {
-      "claim": "NCA regenerator heals target after damage",
-      "status": "amber",
-      "why": "multiscale drift \u0394_scale > threshold",
-      "policy": {
-        "license": "OLH-1.0",
-        "train": true,
-        "share": "internal",
-        "sale": true
-      },
-      "sig": {
-        "verified": false,
-        "pub": ""
-      }
-    }
-  }
-]
+  
