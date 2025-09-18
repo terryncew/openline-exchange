@@ -1,0 +1,24 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"OpenLine Receipt (minimum)",
+  "type":"object",
+  "required":["claim","telem","policy"],
+  "properties":{
+    "claim":{"type":"string"},
+    "because":{"type":"array","items":{"type":"string"}},
+    "but":{"type":"array","items":{"type":"string"}},
+    "so":{"type":"string"},
+    "telem":{"type":"object"},
+    "policy":{
+      "type":"object",
+      "required":["license","use","broker_ok"],
+      "properties":{
+        "license":{"type":"string"},
+        "use":{"type":"object"},
+        "broker_ok":{"type":"boolean"}
+      }
+    },
+    "sig":{"type":"object"}
+  },
+  "additionalProperties": true
+}
