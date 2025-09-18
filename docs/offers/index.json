@@ -9,7 +9,7 @@
     "summary": {
       "claim": "NCA regenerator heals target after damage",
       "status": "amber",
-      "why": "Fail reason: multiscale drift \u0394_scale=0.075 > 0.060 (edges too sharp \u2192 increase smoothing/coarse, or reduce pull)",
+      "why": "Fail reason: multiscale drift Δ_scale=0.075 > 0.060 (edges too sharp → increase smoothing/coarse, or reduce pull)",
       "policy": {
         "license": "OLH-1.0",
         "train": true,
@@ -22,5 +22,6 @@
         "note": "missing sig/pub"
       }
     }
-  },
+  }
+]
   
