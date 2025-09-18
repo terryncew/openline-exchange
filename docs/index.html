@@ -1,77 +1,45 @@
-<!doctype html><meta charset="utf-8">
-<title>OpenLine Exchange</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
-  body{font:16px/1.45 -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;margin:28px;background:#fafafa}
-  h1{font-size:28px;margin:0 0 6px}
-  p.lead{color:#555;margin:0 0 18px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
-  .card{background:#fff;border:1px solid #eee;border-radius:12px;padding:14px}
-  .muted{color:#777}
-  .small{font-size:13px}
-  .pill{display:inline-block;border:1px solid #eee;border-radius:999px;padding:4px 8px;font-size:12px;margin-right:6px}
-  .ok{color:#0a0}.warn{color:#c80}.bad{color:#c00}
-  .badge{border:1px solid #eee;border-radius:999px;padding:2px 6px;font-size:11px;margin-right:6px}
-  a.btn{display:inline-block;border:1px solid #ddd;border-radius:8px;padding:6px 10px;text-decoration:none}
-</style>
-
-<h1>OpenLine Exchange</h1>
-<p class="lead">Make your black box a glass box. List verifiable <i>receipts</i> with rights-in-file. Preview the truth, then request a purchase.</p>
-
-<div id="wrap" class="grid"></div>
-
 <script>
 (async()=>{
   const wrap = document.getElementById('wrap');
-  let items = [];
   try {
-    const resp = await fetch('./offers/index.json',{cache:'no-store'});
-    items = resp.ok ? await resp.json() : [];
-  } catch {}
-  if (!Array.isArray(items) || items.length===0) {
-    const d=document.createElement('div'); d.className='muted'; d.textContent='No offers yet.';
-    wrap.appendChild(d); return;
-  }
-
-  const owner = location.host.split('.')[0];      // e.g. terryncew
-  const repo  = location.pathname.split('/')[1];  // e.g. openline-exchange
-  const cls = s => (s==='green'?'ok':(s==='amber'?'warn':'bad'));
-
-  items.forEach(o=>{
-    const s = o.summary||{}, pol = s.policy||{}, v = s.sig||{};
-    const why = (s.why||'').replace(/</g,'&lt;');
-    const pub = v.pub ? v.pub.slice(0,8)+'…' : '';
-    const issue =
-      `https://github.com/${owner}/${repo}/issues/new?title=`+
-      encodeURIComponent(`Purchase request ${o.id}`)+
-      `&body=${encodeURIComponent(
-        `Offer ID: ${o.id}\nHash: ${o.hash}\nReceipt: ${o.receipt_url}\nPrice (USD): ${o.price_usd}\nRoyalty (bps): ${o.royalty_bps}\n\nBuyer org:\nContact:\nIntended use:\nProcurement link (optional):\n`
-      )}`;
-
-    const div=document.createElement('div'); div.className='card';
-    div.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <div>
-          <span class="pill ${cls(s.status||'')}">${s.status||'unknown'}</span>
-          <span class="badge">${pol.license||''}</span>
-          <span class="badge">${v.verified?('Verified '+pub):(v.pub?'Unverified':'No signature')}</span>
+    const url = new URL('./offers/index.json', location.href);
+    url.searchParams.set('v', Date.now().toString());  // cache-bust
+    const resp = await fetch(url, {cache:'no-store'});
+    const idx = resp.ok ? await resp.json() : [];
+    if (!Array.isArray(idx) || idx.length===0) throw new Error('empty');
+    const cls = s => (s==='green'?'ok':(s==='amber'?'warn':'bad'));
+    idx.forEach(o=>{
+      const s=o.summary||{}, pol=s.policy||{}, v=s.sig||{};
+      const why=(s.why||'').replace(/</g,'&lt;'); const pub=v.pub? v.pub.slice(0,8)+'…':'';
+      const card=document.createElement('div'); card.className='card';
+      card.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div>
+            <span class="pill ${cls(s.status||'')}">${s.status||'unknown'}</span>
+            <span class="badge">${pol.license||''}</span>
+            <span class="badge">${v.verified?('Verified '+pub):'No signature'}</span>
+          </div>
+          <div class="muted small">$${Number(o.price_usd).toFixed(2)} USD</div>
         </div>
-        <div class="muted small">$${Number(o.price_usd).toFixed(2)} USD</div>
-      </div>
-      <div style="font-weight:600;margin-bottom:4px">${(s.claim||'').replace(/</g,'&lt;')}</div>
-      <div class="small muted" style="margin-bottom:8px">${why}</div>
-      <div class="small" style="margin-bottom:10px">
-        <span class="badge">train:${pol.train?'yes':'no'}</span>
-        <span class="badge">share:${pol.share||'none'}</span>
-        <span class="badge">sale:${pol.sale?'yes':'no'}</span>
-        <span class="badge">royalty:${o.royalty_bps}bps</span>
-        <span class="badge">hash:${o.hash.slice(0,10)}…</span>
-      </div>
-      <div style="display:flex;gap:8px">
-        <a class="btn" href="${o.receipt_url}" target="_blank">Preview</a>
-        <a class="btn" href="${issue}" target="_blank">Request Purchase</a>
-      </div>`;
-    wrap.appendChild(div);
-  });
+        <div style="font-weight:600;margin-bottom:4px">${(s.claim||'').replace(/</g,'&lt;')}</div>
+        <div class="small muted" style="margin-bottom:8px">${why}</div>
+        <div class="small" style="margin-bottom:10px">
+          <span class="badge">train:${pol.train?'yes':'no'}</span>
+          <span class="badge">share:${pol.share||'none'}</span>
+          <span class="badge">sale:${pol.sale?'yes':'no'}</span>
+          <span class="badge">royalty:${o.royalty_bps}bps</span>
+          <span class="badge">hash:${o.hash.slice(0,10)}…</span>
+        </div>
+        <div style="display:flex;gap:8px">
+          <a class="btn" href="${o.receipt_url}" target="_blank">Preview</a>
+          <a class="btn" href="https://github.com/${location.pathname.split('/')[1]}/${location.pathname.split('/')[2]}/issues/new?title=Purchase%20request%20${o.id}&body=${encodeURIComponent(
+            `Offer ID: ${o.id}\nHash: ${o.hash}\nReceipt: ${o.receipt_url}\nPrice (USD): ${o.price_usd}\nRoyalty (bps): ${o.royalty_bps}\n\nBuyer org:\nContact:\nIntended use:\nProcurement link (optional):\n`
+          )}" target="_blank">Request Purchase</a>
+        </div>`;
+      wrap.appendChild(card);
+    });
+  } catch {
+    document.getElementById('wrap').textContent='No offers yet.';
+  }
 })();
 </script>
