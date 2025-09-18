@@ -1,9 +1,9 @@
 [
   {
     "id": "787c50e0e296",
-    "ts": 1758182499,
-    "price_usd": 99.0,
-    "royalty_bps": 250,
+    "ts": 1758182715,
+    "price_usd": 0.01,
+    "royalty_bps": 9999,
     "receipt_url": "https://terryncew.github.io/COLE-Coherence-Layer-Engine-/receipt.latest.json",
     "hash": "787c50e0e29689f2873301a288a4630adf638e44237f8f8d783dbeba51579b9a",
     "summary": {
