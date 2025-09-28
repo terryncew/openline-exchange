@@ -2,66 +2,46 @@ from pathlib import Path
 import argparse, json, hashlib, time, requests, sys, copy, base64
 
 ROOT = Path(__file__).resolve().parents[1]
-SCHEMA_DIR = ROOT / "schema"
 OFFERS_DIR = ROOT / "docs" / "offers"
 OFFERS_DIR.mkdir(parents=True, exist_ok=True)
 INDEX = OFFERS_DIR / "index.json"
 
-def load_schema(name):
-    p = SCHEMA_DIR / name
-    return json.loads(p.read_text("utf-8"))
+def to_bytes(s: str) -> bytes:
+    s = (s or "").strip()
+    try: return bytes.fromhex(s)
+    except Exception: pass
+    pad = '=' * ((4 - (len(s) % 4)) % 4)
+    for dec in (base64.b64decode, base64.urlsafe_b64decode):
+        try: return dec(s + pad)
+        except Exception: continue
+    raise ValueError("bad encoding")
 
-def validate(instance, schema):
-    import jsonschema
-    jsonschema.validate(instance=instance, schema=schema)
+def canon_bytes(j: dict) -> bytes:
+    x = copy.deepcopy(j); x.pop("sig", None); x.pop("offer", None)
+    return json.dumps(x, sort_keys=True, separators=(",",":")).encode("utf-8")
+
+def verify_any(j: dict):
+    from nacl.signing import VerifyKey
+    payload = canon_bytes(j)
+    sigs = j.get("signatures") or []
+    for row in sigs:
+        if (row.get("alg") or "").lower() == "ed25519":
+            try:
+                VerifyKey(to_bytes(row.get("key_id"))).verify(payload, to_bytes(row.get("sig")))
+                return True, row.get("key_id",""), ""
+            except Exception:
+                pass
+    legacy = j.get("sig") or {}
+    if legacy.get("pub") and (legacy.get("sig") or legacy.get("signature")):
+        try:
+            VerifyKey(to_bytes(legacy["pub"])).verify(payload, to_bytes(legacy.get("sig") or legacy.get("signature")))
+            return True, legacy["pub"], ""
+        except Exception as e:
+            return False, legacy.get("pub",""), f"verify fail: {e}"
+    return False, "", "no usable signature"
 
 def sha256_hex(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
-
-def to_bytes(s: str) -> bytes:
-    """Accept base64 (std/urlsafe, with/without padding) or hex."""
-    s = s.strip()
-    # hex?
-    try:
-        return bytes.fromhex(s)
-    except Exception:
-        pass
-    # normalize base64 padding
-    pad = '=' * ((4 - (len(s) % 4)) % 4)
-    for decoder in (base64.b64decode, base64.urlsafe_b64decode):
-        try:
-            return decoder(s + pad)
-        except Exception:
-            continue
-    raise ValueError("bad key/sig encoding")
-
-def canon_bytes(j: dict) -> bytes:
-    """Canonical payload: JSON without 'sig' or 'offer', sorted & tight separators."""
-    payload = copy.deepcopy(j)
-    payload.pop("sig", None)
-    payload.pop("offer", None)
-    return json.dumps(payload, sort_keys=True, separators=(",",":")).encode("utf-8")
-
-def verify_sig(j: dict):
-    """Return (verified:bool, pubkey_str:str, reason:str). Ed25519 over canonical payload."""
-    sig = j.get("sig") or {}
-    alg = (sig.get("alg") or "ed25519").lower()
-    pub = sig.get("pub") or ""
-    s   = sig.get("sig") or sig.get("signature") or ""
-    if not pub or not s:
-        return (False, "", "missing sig/pub")
-    if alg != "ed25519":
-        return (False, pub, f"unsupported alg {alg}")
-
-    try:
-        from nacl.signing import VerifyKey
-        pk = to_bytes(pub)
-        sig_bytes = to_bytes(s)
-        vk = VerifyKey(pk)
-        vk.verify(canon_bytes(j), sig_bytes)  # raises if bad
-        return (True, pub, "")
-    except Exception as e:
-        return (False, pub, f"verify fail: {e}")
 
 def main():
     ap = argparse.ArgumentParser()
@@ -70,53 +50,28 @@ def main():
     ap.add_argument("--royalty", required=True)
     a = ap.parse_args()
 
-    # fetch receipt
     r = requests.get(a.url, timeout=20)
-    if r.status_code != 200:
-        print("[err] could not fetch receipt:", r.status_code)
-        sys.exit(2)
+    if r.status_code != 200: print("[err] fetch failed", r.status_code); sys.exit(2)
     j = r.json()
 
-    # minimal schema gate (claim + telem + policy presence)
+    payload = canon_bytes(j)
+    h = sha256_hex(payload); sid = h[:12]
+    ok, pub, note = False, "", ""
     try:
-        receipt_schema = load_schema("receipt.min.schema.json")
-        validate(j, receipt_schema)
+        from nacl.signing import VerifyKey  # noqa
+        ok, pub, note = verify_any(j)
     except Exception as e:
-        print("[err] schema validation failed:", e)
-        sys.exit(2)
+        note = f"verify err: {e}"
 
-    # policy gates
-    pol = j.get("policy", {})
-    use = pol.get("use", {})
-    if not pol.get("broker_ok", False):
-        print("[err] policy.broker_ok=false → cannot list"); sys.exit(2)
-    if not use.get("sale", False):
-        print("[err] policy.use.sale=false → cannot list"); sys.exit(2)
-
-    # canonical hash (over payload w/o sig/offer)
-    canon = canon_bytes(j)
-    h = sha256_hex(canon)
-    sid = h[:12]
-
-    # signature verification (optional)
-    verified, pub, reason = verify_sig(j)
-
-    # inputs
-    try:
-        price = float(a.price)
-        royalty_bps = int(a.royalty)
-        assert 0 <= royalty_bps <= 10000
-    except Exception:
-        print("[err] bad price/royalty inputs"); sys.exit(2)
-
+    price = float(a.price); royalty_bps = int(a.royalty)
     now = int(time.time())
+    pol = j.get("policy", {}); use = pol.get("use", {})
+    if not pol.get("broker_ok", False): print("[err] broker_ok=false"); sys.exit(2)
+    if not use.get("sale", False): print("[err] use.sale=false"); sys.exit(2)
+
     offer = {
-      "id": sid,
-      "ts": now,
-      "price_usd": price,
-      "royalty_bps": royalty_bps,
-      "receipt_url": a.url,
-      "hash": h,
+      "id": sid, "ts": now, "price_usd": price, "royalty_bps": royalty_bps,
+      "receipt_url": a.url, "hash": h,
       "summary": {
         "claim": j.get("claim",""),
         "status": (j.get("attrs",{}) or {}).get("status","") or j.get("status",""),
@@ -127,30 +82,21 @@ def main():
           "share": use.get("share","none"),
           "sale": bool(use.get("sale", False))
         },
-        "sig": {
-          "verified": bool(verified),
-          "pub": pub,
-          "note": ("" if verified else reason)
-        }
+        "sig": { "verified": bool(ok), "pub": pub, "note": note }
       }
     }
 
-    # write file
     f = OFFERS_DIR / f"{sid}.json"
     f.write_text(json.dumps(offer, indent=2), encoding="utf-8")
-
-    # update index
     items = []
     if INDEX.exists():
         try: items = json.loads(INDEX.read_text("utf-8"))
-        except Exception: items = []
+        except: items = []
     items = [x for x in items if x.get("id") != sid]
     items.append({k: offer[k] for k in ("id","ts","price_usd","royalty_bps","receipt_url","hash","summary")})
     items.sort(key=lambda x: x["ts"], reverse=True)
     INDEX.write_text(json.dumps(items, indent=2), encoding="utf-8")
-
-    badge = "Verified" if verified else ("Unverified" if pub else "No signature")
-    print(f"[ok] listed {sid}  hash={h[:10]}…  sig={badge}")
+    print(f"[ok] listed {sid} sig={'Verified' if ok else 'Unverified'}")
 
 if __name__ == "__main__":
     main()
