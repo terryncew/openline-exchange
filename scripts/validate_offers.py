@@ -1,11 +1,23 @@
-from pathlib import Path, PurePosixPath as P
+# scripts/validate_offers.py
+from pathlib import Path
 import json, sys
-ROOT = Path("docs/offers")
-req = ["id","merchant_id","sku","price"]
-ok=True
-for f in sorted(ROOT.glob("*.json")):
-    j=json.loads(f.read_text("utf-8"))
-    miss=[k for k in req if k not in j] or ([] if isinstance(j.get("price"),dict) and "amount" in j["price"] and "currency" in j["price"] else ["price.amount","price.currency"])
-    if miss: print(f"[err] {P(f).name} missing {miss}"); ok=False
-    else:    print(f"[ok]  {P(f).name}")
-sys.exit(0 if ok else 2)
+REQ = ["id","merchant_id","sku","price","currency"]
+OFFERS = Path("docs/offers")
+
+def main():
+    ok=True
+    for p in sorted(OFFERS.glob("*.json")):
+        j=json.loads(p.read_text("utf-8"))
+        missing=[k for k in REQ if k not in j]
+        if isinstance(j.get("price"), dict):
+            if "amount" not in j["price"]: missing.append("price.amount")
+        else:
+            missing.append("price.amount")
+        if missing:
+            ok=False; print(f"[fail] {p.name}: missing {missing}")
+        else:
+            print(f"[ok] {p.name}")
+    sys.exit(0 if ok else 2)
+
+if __name__=="__main__":
+    main()
