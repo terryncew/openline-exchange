@@ -1,0 +1,84 @@
+name: openline-exchange Pages (verify v1.2)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "docs/**"
+      - "scripts/**"
+      - ".github/workflows/exchange-pages.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: olx-pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+
+      - name: Ensure dirs
+        run: mkdir -p docs scripts docs/offers
+
+      - name: Verify v1.2 receipt (non-blocking)
+        run: |
+          if [ -f scripts/verify_receipt_v12.py ]; then
+            python scripts/verify_receipt_v12.py || true
+          else
+            echo '{"verified": false, "reason": "no verifier"}' > docs/status.json
+          fi
+
+      - name: Seed index (if missing)
+        run: |
+          if [ ! -f docs/index.html ]; then
+            cat > docs/index.html <<'HTML'
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>openline-exchange</title>
+<style>
+  body{font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto;margin:24px}
+  .tag{display:inline-block;padding:.2em .6em;border-radius:6px;color:#fff}
+</style>
+<h1>openline-exchange</h1>
+<p>Receipt status: <b id="verified-tag" class="tag">Pending</b></p>
+<p><a href="./receipt.latest.json">receipt.latest.json</a> · <a href="./status.json">status.json</a></p>
+<script>
+fetch('./status.json?'+Date.now()).then(r=>r.json()).then(s=>{
+  const tag=document.getElementById('verified-tag');
+  tag.textContent = s.verified ? 'Verified (v1.2)' : 'Pending';
+  tag.style.background = s.verified ? '#065f46' : '#92400e';
+}).catch(()=>{});
+</script>
+HTML
+          fi
+
+      - name: Commit docs (if changed)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A docs
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(exchange): update status/index [skip ci]"
+            git push
+          else
+            echo "No changes"
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: docs }
+      - id: deployment
+        uses: actions/deploy-pages@v4
