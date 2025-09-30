@@ -1,13 +1,13 @@
 name: openline-exchange Pages (verify v1.2)
 
 on:
-  workflow_dispatch:
   push:
     branches: [ "main" ]
     paths:
       - "docs/**"
       - "scripts/**"
       - ".github/workflows/exchange-pages.yml"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -19,17 +19,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  pages:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
+    environment: github-pages
 
-      - uses: actions/setup-python@v5
-        with: { python-version: "3.11" }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
       - name: Ensure dirs
         run: mkdir -p docs scripts docs/offers
@@ -46,7 +48,9 @@ jobs:
         run: |
           if [ ! -f docs/index.html ]; then
             cat > docs/index.html <<'HTML'
-<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>openline-exchange</title>
 <style>
   body{font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto;margin:24px}
@@ -77,8 +81,14 @@ HTML
             echo "No changes"
           fi
 
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: docs }
-      - id: deployment
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy to Pages
+        id: deployment
         uses: actions/deploy-pages@v4
