@@ -20,25 +20,22 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
       - name: Ensure dirs
-        run: |
-          mkdir -p docs scripts docs/offers
+        run: mkdir -p docs scripts docs/offers
 
       - name: Verify v1.2 receipt (non-blocking)
         run: |
           if [ -f scripts/verify_receipt_v12.py ]; then
             python scripts/verify_receipt_v12.py || true
           else
-            echo '{"verified": false, "reason": "no verifier"}' > docs/status.json
+            printf '%s\n' '{"verified": false, "reason": "no verifier"}' > docs/status.json
           fi
 
       - name: Seed index (if missing)
@@ -60,6 +57,7 @@ jobs:
 <script>
 fetch('./status.json?'+Date.now()).then(r=>r.json()).then(s=>{
   const tag=document.getElementById('verified-tag');
+  if(!tag) return;
   tag.textContent = s.verified ? 'Verified (v1.2)' : 'Pending';
   tag.style.background = s.verified ? '#065f46' : '#92400e';
 }).catch(()=>{});
@@ -69,11 +67,15 @@ HTML
 
       - name: Commit docs (if changed)
         run: |
-          git config user.name  "github-actions[bot]"
+          git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A docs
-          git diff --cached --quiet || git commit -m "docs(exchange): update status/index [skip ci]"
-          git push || true
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(exchange): update status/index [skip ci]"
+            git push
+          else
+            echo "No changes"
+          fi
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
