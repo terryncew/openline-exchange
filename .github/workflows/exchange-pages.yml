@@ -2,7 +2,11 @@ name: openline-exchange Pages (verify v1.2)
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
+    paths:
+      - "docs/**"
+      - "scripts/**"
+      - ".github/workflows/exchange-pages.yml"
   workflow_dispatch:
 
 permissions:
@@ -15,27 +19,31 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  deploy:
+    # avoid loops when the bot commits status.json or index.html
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
+
+    # <<< THIS is what the deploy action needs. Keep it simple. >>>
+    environment: github-pages
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Ensure dirs
         run: mkdir -p docs scripts docs/offers
 
       - name: Verify v1.2 receipt (non-blocking)
+        shell: bash
         run: |
           if [ -f scripts/verify_receipt_v12.py ]; then
             python scripts/verify_receipt_v12.py || true
           else
-            printf '%s\n' '{"verified": false, "reason": "no verifier"}' > docs/status.json
+            echo '{"verified": false, "reason": "no verifier"}' > docs/status.json
           fi
 
       - name: Seed index (if missing)
@@ -66,8 +74,9 @@ HTML
           fi
 
       - name: Commit docs (if changed)
+        shell: bash
         run: |
-          git config user.name "github-actions[bot]"
+          git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A docs
           if ! git diff --cached --quiet; then
@@ -77,9 +86,14 @@ HTML
             echo "No changes"
           fi
 
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: docs
-      - id: deployment
+
+      - name: Deploy to Pages
+        id: deploy
         uses: actions/deploy-pages@v4
