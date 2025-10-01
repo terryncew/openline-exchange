@@ -1,45 +1,18 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>openline-exchange</title>
+<style>
+  body{font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto;margin:24px}
+  .tag{display:inline-block;padding:.2em .6em;border-radius:6px;color:#fff}
+</style>
+<h1>openline-exchange</h1>
+<p>Receipt status: <b id="verified-tag" class="tag">Pending</b></p>
+<p><a href="./receipt.latest.json">receipt.latest.json</a> · <a href="./status.json">status.json</a></p>
 <script>
-(async()=>{
-  const wrap = document.getElementById('wrap');
-  try {
-    const url = new URL('./offers/index.json', location.href);
-    url.searchParams.set('v', Date.now().toString());  // cache-bust
-    const resp = await fetch(url, {cache:'no-store'});
-    const idx = resp.ok ? await resp.json() : [];
-    if (!Array.isArray(idx) || idx.length===0) throw new Error('empty');
-    const cls = s => (s==='green'?'ok':(s==='amber'?'warn':'bad'));
-    idx.forEach(o=>{
-      const s=o.summary||{}, pol=s.policy||{}, v=s.sig||{};
-      const why=(s.why||'').replace(/</g,'&lt;'); const pub=v.pub? v.pub.slice(0,8)+'…':'';
-      const card=document.createElement('div'); card.className='card';
-      card.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          <div>
-            <span class="pill ${cls(s.status||'')}">${s.status||'unknown'}</span>
-            <span class="badge">${pol.license||''}</span>
-            <span class="badge">${v.verified?('Verified '+pub):'No signature'}</span>
-          </div>
-          <div class="muted small">$${Number(o.price_usd).toFixed(2)} USD</div>
-        </div>
-        <div style="font-weight:600;margin-bottom:4px">${(s.claim||'').replace(/</g,'&lt;')}</div>
-        <div class="small muted" style="margin-bottom:8px">${why}</div>
-        <div class="small" style="margin-bottom:10px">
-          <span class="badge">train:${pol.train?'yes':'no'}</span>
-          <span class="badge">share:${pol.share||'none'}</span>
-          <span class="badge">sale:${pol.sale?'yes':'no'}</span>
-          <span class="badge">royalty:${o.royalty_bps}bps</span>
-          <span class="badge">hash:${o.hash.slice(0,10)}…</span>
-        </div>
-        <div style="display:flex;gap:8px">
-          <a class="btn" href="${o.receipt_url}" target="_blank">Preview</a>
-          <a class="btn" href="https://github.com/${location.pathname.split('/')[1]}/${location.pathname.split('/')[2]}/issues/new?title=Purchase%20request%20${o.id}&body=${encodeURIComponent(
-            `Offer ID: ${o.id}\nHash: ${o.hash}\nReceipt: ${o.receipt_url}\nPrice (USD): ${o.price_usd}\nRoyalty (bps): ${o.royalty_bps}\n\nBuyer org:\nContact:\nIntended use:\nProcurement link (optional):\n`
-          )}" target="_blank">Request Purchase</a>
-        </div>`;
-      wrap.appendChild(card);
-    });
-  } catch {
-    document.getElementById('wrap').textContent='No offers yet.';
-  }
-})();
+fetch('./status.json?'+Date.now()).then(r=>r.json()).then(s=>{
+  const tag=document.getElementById('verified-tag');
+  tag.textContent = s.verified ? 'Verified (v1.2)' : 'Pending';
+  tag.style.background = s.verified ? '#065f46' : '#92400e';
+}).catch(()=>{});
 </script>
