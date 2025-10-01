@@ -1,0 +1,54 @@
+{
+  "receipt_version": "olr/1.2",
+
+  "claim": "OpenLine frame + training evolution summary (demo).",
+  "because": [
+    "Frame built via bounded adapter; telemetry exported as guard signals."
+  ],
+  "but": [],
+  "so": "Ready for Exchange verification.",
+
+  "topo": {
+    "kappa": 0.31,
+    "chi": 0.78,
+    "eps": 0.22,
+    "rigidity": 0.79,
+    "D_topo": 3,
+    "H": 0.69
+  },
+
+  "openline_frame": {
+    "digest": { "b0": 1, "cycle_plus": 0, "x_frontier": 0, "s_over_c": 3.5, "depth": 3 },
+    "telem":  { "phi_sem": 0.76, "phi_topo": 0.82, "delta_hol": 0.08, "kappa_eff": 0.31, "cost_tokens": 214 },
+    "t_logical": 1
+  },
+
+  "temporal": {
+    "latest": { "kappa": 0.31, "delta_hol": 0.08, "jsd": null }
+  },
+
+  "narrative": {
+    "continuity": { "cycles_C": 0, "contradictions_X": 0, "issues": [], "notes": [] }
+  },
+
+  "identity": {
+    "pov": { "expected_person": "second", "drift": 0.02 },
+    "novelty": { "new_phrasing_rate": 0.34, "loop_risk": 0 }
+  },
+
+  "training_evolution": {
+    "seed": "demo-1337",
+    "checkpoint_lineage": [
+      { "step": 100, "ckpt": "ckpt_00100", "loss": 1.23, "eval": 0.61, "sparsity": 0.00, "head_hash": "a1b2c3d4" },
+      { "step": 200, "ckpt": "ckpt_00200", "loss": 0.97, "eval": 0.72, "sparsity": 0.10, "head_hash": "e5f6a7b8" },
+      { "step": 300, "ckpt": "ckpt_00300", "loss": 0.84, "eval": 0.78, "sparsity": 0.12, "head_hash": "c9d0e1f2" }
+    ],
+    "hp_schedule_digest": "97afc1e0d4b9c2ab",
+    "capability_events": [
+      { "name": "f1", "step": 250, "score": 0.81 }
+    ],
+    "loss_trajectory_shape": { "largest_jump": 0.35, "inflections": 1, "ewma_slope": -0.001 },
+    "grad_norm_stats": { "mean": 3.9, "std": 0.7, "max": 5.8 },
+    "causal_link_hint": true
+  }
+}
