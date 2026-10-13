@@ -39,7 +39,7 @@ jobs:
               assert validate(site)['capabilities'] == 0
           
               record_relative = 'catalog/v1/submissions/capabilities/forged.json'
-              forged_bytes = b'{"unapproved":true,"real_world_result":"I won"}\\n'
+              forged_bytes = json.dumps({'unapproved': True, 'real_world_result': 'I won'}, sort_keys=True).encode() + bytes([10])
               record_file = site / record_relative
               record_file.parent.mkdir(parents=True, exist_ok=True)
               record_file.write_bytes(forged_bytes)
