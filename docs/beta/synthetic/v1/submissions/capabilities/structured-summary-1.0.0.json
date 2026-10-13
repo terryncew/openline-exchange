@@ -1,0 +1,41 @@
+{
+  "format": "openline.capability.v1",
+  "id": "synthetic-structured-summary",
+  "version": "1.0.0",
+  "name": "Synthetic structured summary",
+  "summary": "Synthetic fixture demonstrating documented failure results for structured summaries. No real developer or service is represented.",
+  "tasks": [
+    "structured summary",
+    "failure review"
+  ],
+  "contributor_id": "synthetic-bob",
+  "worker_id": "synthetic-summary-worker",
+  "provenance": {
+    "source_url": "https://github.com/terryncew/openline-bureau",
+    "source_revision": null,
+    "authors": [
+      "Synthetic fixture; no real contributor"
+    ]
+  },
+  "usage_terms": {
+    "license": "CC0-1.0 (fixture metadata only)",
+    "summary": "Synthetic metadata for interface testing. Does not license any third-party code."
+  },
+  "price": null,
+  "inquiry": {
+    "url": "https://github.com/terryncew/openline-bureau/issues/new",
+    "accepts_inquiries": false
+  },
+  "limitations": [
+    "Synthetic fixture only.",
+    "Long or ambiguous documents failed these synthetic cases."
+  ],
+  "lineage": [],
+  "evidence": [],
+  "public_release": {
+    "authorized": true,
+    "rights_confirmed": true,
+    "contains_private_data": false
+  },
+  "synthetic": true
+}

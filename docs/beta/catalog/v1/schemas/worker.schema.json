@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/terryncew/openline-bureau/blob/main/catalog/schemas/worker.schema.json",
+  "title": "OpenLine public beta worker v1",
+  "description": "The data-only Bureau compiler adds URL safety, size budgets, exact digest binding, role and reference checks beyond this shape schema.",
+  "type": "object",
+  "properties": {
+    "format": {
+      "const": "openline.worker.v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+    },
+    "public_release": {
+      "type": "object",
+      "properties": {
+        "authorized": {
+          "const": true
+        },
+        "rights_confirmed": {
+          "const": true
+        },
+        "contains_private_data": {
+          "const": false
+        }
+      },
+      "required": [
+        "authorized",
+        "rights_confirmed",
+        "contains_private_data"
+      ],
+      "additionalProperties": false
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "contributor_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 39,
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+    },
+    "capability_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 80,
+        "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+      },
+      "minItems": 1,
+      "maxItems": 100
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "source_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://[^\\s]+$"
+        },
+        "source_revision": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{40}(?:[0-9a-f]{24})?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "minItems": 1,
+          "maxItems": 30
+        }
+      },
+      "required": [
+        "source_url",
+        "source_revision",
+        "authors"
+      ],
+      "additionalProperties": false
+    },
+    "inquiry": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "const": "https://github.com/terryncew/openline-bureau/issues/new"
+        },
+        "accepts_inquiries": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "url",
+        "accepts_inquiries"
+      ],
+      "additionalProperties": false
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "minItems": 0,
+      "maxItems": 50
+    }
+  },
+  "required": [
+    "format",
+    "id",
+    "public_release",
+    "synthetic",
+    "name",
+    "summary",
+    "contributor_id",
+    "capability_ids",
+    "provenance",
+    "inquiry",
+    "limitations"
+  ],
+  "additionalProperties": false
+}

@@ -1,14 +1,68 @@
-name: Exchange → Pages
-on: { push: { branches: [main] }, workflow_dispatch: {} }
-permissions: { pages: write, id-token: write, contents: read }
+name: Review and deploy Exchange Pages (manual only)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: olx-pages
+  cancel-in-progress: false
 jobs:
-  deploy:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate offers
-        run: python scripts/validate_offers.py || true
-      - uses: actions/configure-pages@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Fail closed on beta artifacts
+        run: |
+          python scripts/validate_beta.py
+          python -m unittest discover -s tests -p 'test_*.py'
+          node --test tests/beta_model.test.mjs
+      - name: Install pinned browser driver
+        run: python -m pip install -r tests/requirements-browser.txt
+      - name: Validate public journey before approved publication
+        run: python tests/browser_beta.py --chromium /usr/bin/google-chrome
+      - uses: actions/checkout@v4
+        with:
+          repository: terryncew/openline-bureau
+          ref: 97bbfe05349f7be8af3c929fb18442c4d02e3b12
+          path: trusted-bureau
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: terryncew/openline-wallet
+          ref: c46e82a324199050239540f1825a3b0c942e4053
+          path: pinned-wallet
+          persist-credentials: false
+      - name: Install pinned compiler verification dependencies
+        run: |
+          set -eu
+          python -m pip install cryptography==50.0.0 jsonschema==4.26.0
+          python -m pip install --no-deps ./pinned-wallet
+      - name: Rebuild and compare every public byte from pinned reviewed Bureau source
+        run: |
+          set -eu
+          python scripts/build_beta.py --bureau trusted-bureau --out "$RUNNER_TEMP/openline-reviewed-rebuild"
+          diff -qr docs/beta "$RUNNER_TEMP/openline-reviewed-rebuild"
       - uses: actions/upload-pages-artifact@v3
-        with: { path: docs }
+        with:
+          path: docs/beta
+  deploy:
+    permissions:
+      pages: write
+      id-token: write
+    needs: validate
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - uses: actions/deploy-pages@v4
+        id: deployment

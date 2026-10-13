@@ -1,0 +1,45 @@
+{
+  "format": "openline.capability.v1",
+  "id": "synthetic-text-digest",
+  "version": "1.0.0",
+  "name": "Synthetic text digest",
+  "summary": "Synthetic fixture demonstrating text statistics and deterministic digest evidence. No real service is offered.",
+  "tasks": [
+    "text digest",
+    "word count"
+  ],
+  "contributor_id": "synthetic-alice",
+  "worker_id": "synthetic-digest-worker",
+  "provenance": {
+    "source_url": "https://github.com/terryncew/openline-bureau",
+    "source_revision": null,
+    "authors": [
+      "Synthetic fixture; no real contributor"
+    ]
+  },
+  "usage_terms": {
+    "license": "CC0-1.0 (fixture metadata only)",
+    "summary": "Synthetic metadata for interface testing. Does not license any third-party code."
+  },
+  "price": {
+    "amount": "5.00",
+    "currency": "SIM_USD",
+    "basis": "Synthetic fixture quote per text document; no real currency transfer."
+  },
+  "inquiry": {
+    "url": "https://github.com/terryncew/openline-bureau/issues/new",
+    "accepts_inquiries": false
+  },
+  "limitations": [
+    "Synthetic fixture only; no demonstrated service performance.",
+    "Text counting conventions exclude no edge cases unless individually documented."
+  ],
+  "lineage": [],
+  "evidence": [],
+  "public_release": {
+    "authorized": true,
+    "rights_confirmed": true,
+    "contains_private_data": false
+  },
+  "synthetic": true
+}

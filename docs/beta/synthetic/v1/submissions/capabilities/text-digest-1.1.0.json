@@ -1,0 +1,63 @@
+{
+  "format": "openline.capability.v1",
+  "id": "synthetic-text-digest",
+  "version": "1.1.0",
+  "name": "Synthetic text digest — revision",
+  "summary": "Synthetic improved fixture demonstrating version lineage and attributed evidence history. No service or legal ownership is established.",
+  "tasks": [
+    "text digest",
+    "word count"
+  ],
+  "contributor_id": "synthetic-alice",
+  "worker_id": "synthetic-digest-worker",
+  "provenance": {
+    "source_url": "https://github.com/terryncew/openline-bureau",
+    "source_revision": null,
+    "authors": [
+      "Synthetic fixture; no real contributor"
+    ]
+  },
+  "usage_terms": {
+    "license": "CC0-1.0 (fixture metadata only)",
+    "summary": "Synthetic metadata for interface testing. Does not license any third-party code."
+  },
+  "price": {
+    "amount": "4.00",
+    "currency": "SIM_USD",
+    "basis": "Synthetic fixture quote per text document; no real currency transfer."
+  },
+  "inquiry": {
+    "url": "https://github.com/terryncew/openline-bureau/issues/new",
+    "accepts_inquiries": false
+  },
+  "limitations": [
+    "Synthetic fixture only; no demonstrated service performance.",
+    "Text counting conventions exclude no edge cases unless individually documented."
+  ],
+  "lineage": [
+    {
+      "capability_id": "synthetic-text-digest",
+      "version": "1.0.0",
+      "record_sha256": "20ca591a9fc6661cefdb72de0e5b87bbb99eb981d1d973d9676b89f6b65fdba1",
+      "relation": "improves"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evidence/synthetic-digest-receipt.json",
+      "sha256": "86a40de2ae70c1ba940072c90f76a468fa0f7358e83389c405f73bee5de2e2e9",
+      "format": "bureau.receipt.v0.1",
+      "public_release": {
+        "authorized": true,
+        "rights_confirmed": true,
+        "contains_private_data": false
+      }
+    }
+  ],
+  "public_release": {
+    "authorized": true,
+    "rights_confirmed": true,
+    "contains_private_data": false
+  },
+  "synthetic": true
+}

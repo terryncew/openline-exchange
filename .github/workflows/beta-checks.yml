@@ -1,0 +1,89 @@
+name: Beta static validation
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Static and model checks (no credentials, publication, or contributed capability execution)
+        run: |
+          python scripts/validate_beta.py
+          python -m unittest discover -s tests -p 'test_*.py'
+          node --test tests/beta_model.test.mjs
+          node --check docs/beta/app.js
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned browser driver
+        run: python -m pip install -r tests/requirements-browser.txt
+      - name: Validate full browser journey without external requests
+        run: python tests/browser_beta.py --chromium /usr/bin/google-chrome --screenshots-dir /tmp/beta-screenshots
+      - uses: actions/upload-artifact@v4
+        with:
+          name: beta-review-screenshots
+          path: /tmp/beta-screenshots
+  provenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/checkout@v4
+        with:
+          repository: terryncew/openline-bureau
+          ref: 97bbfe05349f7be8af3c929fb18442c4d02e3b12
+          path: trusted-bureau
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: terryncew/openline-wallet
+          ref: c46e82a324199050239540f1825a3b0c942e4053
+          path: pinned-wallet
+          persist-credentials: false
+      - name: Install pinned compiler verification dependencies
+        run: |
+          set -eu
+          python -m pip install cryptography==50.0.0 jsonschema==4.26.0
+          python -m pip install --no-deps ./pinned-wallet
+      - name: Rebuild and compare every public byte from pinned reviewed Bureau source
+        run: |
+          set -eu
+          python scripts/build_beta.py --bureau trusted-bureau --out "$RUNNER_TEMP/openline-reviewed-rebuild"
+          diff -qr docs/beta "$RUNNER_TEMP/openline-reviewed-rebuild"
+      - name: Regression — altered bytes cannot match an independently rebuilt release
+        run: |
+          set -eu
+          cp -a "$RUNNER_TEMP/openline-reviewed-rebuild" "$RUNNER_TEMP/openline-counterfeit-rebuild"
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          p=Path(os.environ['RUNNER_TEMP'])/'openline-counterfeit-rebuild'/'catalog'/'v1'/'index.json'
+          p.write_bytes(p.read_bytes()+bytes([10]))
+          PY
+          if diff -qr "$RUNNER_TEMP/openline-counterfeit-rebuild" "$RUNNER_TEMP/openline-reviewed-rebuild"; then
+            echo "FAIL: altered public files unexpectedly matched the trusted rebuild" >&2
+            exit 1
+          fi
+          echo "PASS: independently rebuilt source detects altered publication bytes"

@@ -1,0 +1,327 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/terryncew/openline-bureau/blob/main/catalog/schemas/capability.schema.json",
+  "title": "OpenLine public beta capability v1",
+  "description": "The data-only Bureau compiler adds URL safety, size budgets, exact digest binding, role and reference checks beyond this shape schema.",
+  "type": "object",
+  "properties": {
+    "format": {
+      "const": "openline.capability.v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+    },
+    "public_release": {
+      "type": "object",
+      "properties": {
+        "authorized": {
+          "const": true
+        },
+        "rights_confirmed": {
+          "const": true
+        },
+        "contains_private_data": {
+          "const": false
+        }
+      },
+      "required": [
+        "authorized",
+        "rights_confirmed",
+        "contains_private_data"
+      ],
+      "additionalProperties": false
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[a-zA-Z0-9.-]+)?$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100
+      },
+      "minItems": 1,
+      "maxItems": 30
+    },
+    "contributor_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 39,
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+    },
+    "worker_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "source_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://[^\\s]+$"
+        },
+        "source_revision": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{40}(?:[0-9a-f]{24})?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "minItems": 1,
+          "maxItems": 30
+        }
+      },
+      "required": [
+        "source_url",
+        "source_revision",
+        "authors"
+      ],
+      "additionalProperties": false
+    },
+    "usage_terms": {
+      "type": "object",
+      "properties": {
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "license",
+        "summary"
+      ],
+      "additionalProperties": false
+    },
+    "price": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20,
+              "pattern": "^(0|[1-9][0-9]{0,8})(?:\\.[0-9]{1,4})?$"
+            },
+            "currency": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32,
+              "pattern": "^[A-Z]{3}$|^SIM_USD$"
+            },
+            "basis": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          },
+          "required": [
+            "amount",
+            "currency",
+            "basis"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "inquiry": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "const": "https://github.com/terryncew/openline-bureau/issues/new"
+        },
+        "accepts_inquiries": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "url",
+        "accepts_inquiries"
+      ],
+      "additionalProperties": false
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "minItems": 0,
+      "maxItems": 50
+    },
+    "lineage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "capability_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[a-zA-Z0-9.-]+)?$"
+          },
+          "record_sha256": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "relation": {
+            "enum": [
+              "improves",
+              "derived_from",
+              "evaluates"
+            ]
+          }
+        },
+        "required": [
+          "capability_id",
+          "version",
+          "record_sha256",
+          "relation"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 20
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240,
+            "pattern": "^evidence/[A-Za-z0-9._/-]+\\.json$"
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "format": {
+            "enum": [
+              "bureau.receipt.v0.1",
+              "openline.wallet.effect_receipt.v1",
+              "openline.gate.action_receipt.v1",
+              "openline.catalog.signed-receipt.v1",
+              "openline.exchange.selected-evidence.v1"
+            ]
+          },
+          "public_release": {
+            "type": "object",
+            "properties": {
+              "authorized": {
+                "const": true
+              },
+              "rights_confirmed": {
+                "const": true
+              },
+              "contains_private_data": {
+                "const": false
+              }
+            },
+            "required": [
+              "authorized",
+              "rights_confirmed",
+              "contains_private_data"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "path",
+          "sha256",
+          "format",
+          "public_release"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 100
+    }
+  },
+  "required": [
+    "format",
+    "id",
+    "public_release",
+    "synthetic",
+    "version",
+    "name",
+    "summary",
+    "tasks",
+    "contributor_id",
+    "worker_id",
+    "provenance",
+    "usage_terms",
+    "price",
+    "inquiry",
+    "limitations",
+    "lineage",
+    "evidence"
+  ],
+  "additionalProperties": false
+}

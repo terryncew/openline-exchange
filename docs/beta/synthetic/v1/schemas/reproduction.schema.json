@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/terryncew/openline-bureau/blob/main/catalog/schemas/reproduction.schema.json",
+  "title": "OpenLine public beta reproduction v1",
+  "description": "The data-only Bureau compiler adds URL safety, size budgets, exact digest binding, role and reference checks beyond this shape schema.",
+  "type": "object",
+  "properties": {
+    "format": {
+      "const": "openline.catalog.reproduction.v1"
+    },
+    "evaluation_sha256": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "reviewer": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 39,
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+    },
+    "method": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "environment": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "sample": {
+      "type": "object",
+      "properties": {
+        "dataset": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "selection": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "inconclusive": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        }
+      },
+      "required": [
+        "dataset",
+        "selection",
+        "total",
+        "passed",
+        "failed",
+        "inconclusive"
+      ],
+      "additionalProperties": false
+    },
+    "results_sha256": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "public_release": {
+      "type": "object",
+      "properties": {
+        "authorized": {
+          "const": true
+        },
+        "rights_confirmed": {
+          "const": true
+        },
+        "contains_private_data": {
+          "const": false
+        }
+      },
+      "required": [
+        "authorized",
+        "rights_confirmed",
+        "contains_private_data"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "format",
+    "evaluation_sha256",
+    "reviewer",
+    "method",
+    "environment",
+    "sample",
+    "results_sha256",
+    "public_release"
+  ],
+  "additionalProperties": false
+}
