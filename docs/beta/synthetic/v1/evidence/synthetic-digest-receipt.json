@@ -1,0 +1,19 @@
+{
+  "receipt_version": "bureau.receipt.v0.1",
+  "receipt_id": "synthetic-fixture-receipt-1",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "receiver": "synthetic-fixture-receiver",
+  "action": {
+    "type": "count_words"
+  },
+  "decision": {
+    "outcome": "OBSERVED"
+  },
+  "effect": {
+    "observed": true
+  },
+  "provenance": {
+    "system": "synthetic-fixture",
+    "hash": "fixture-placeholder-not-cryptographic-binding"
+  }
+}

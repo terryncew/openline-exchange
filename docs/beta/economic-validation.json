@@ -1,0 +1,418 @@
+{
+  "authorization": "Recommendation does not authorize work. Wallet owner review and receiver enforcement remain required.",
+  "conclusion": "No demonstrated commercial advantage. Mixed improves completion but loses accepted-work efficiency per settled simulated dollar; reversal loses all four pairs; sparse is inconclusive.",
+  "format": "openline.bureau.economic-validation.v1",
+  "protocol": {
+    "bureau": "with >=3 distinct buyer-verified historical verdicts and no unresolved job, maximize accepted fraction / offered price; otherwise control",
+    "control": "lowest advertised price within budget; ties by worker id",
+    "cost_boundary": "only simulated settlement cost is observed; failed work remains unpaid; labor/compute/opportunity cost unknown",
+    "decision": "INCONCLUSIVE if fewer than 4 paired tasks, unknown outcomes or fewer than 3 historical verdicts for A and B; ADVANTAGE if primary >0, otherwise NO_ADVANTAGE (including losses)",
+    "evaluation": "existing buyer receiver exact_recompute; existing settlement rules",
+    "held_out_tasks": 4,
+    "label": "DETERMINISTIC SYNTHETIC WORKERS AND TASKS; NO ECONOMIC CLAIM",
+    "pool": "same three text_digest workers and advertised prices, both conditions",
+    "primary": "Bureau verified completion rate minus control rate on paired held-out tasks",
+    "privacy": "export selected signed public text_digest records only; no inputs or private Wallet history",
+    "secondary": "accepted per signed settled SIM_USD, rejected selections, sparse fallback, paired worse choices",
+    "task_budget": 60,
+    "version": "BUREAU-ALLOCATION-001/v1"
+  },
+  "scenarios": [
+    {
+      "bureau_worse_tasks": [
+        "heldout-3"
+      ],
+      "completion_delta": 0.5,
+      "conditions": {
+        "bureau": {
+          "accepted": 3,
+          "accepted_per_settled_sim_usd": 0.02,
+          "completion_rate": 0.75,
+          "observed_settled_sim_usd": 150,
+          "rejected": 1,
+          "selections": 4
+        },
+        "control": {
+          "accepted": 1,
+          "accepted_per_settled_sim_usd": 0.025,
+          "completion_rate": 0.25,
+          "observed_settled_sim_usd": 40,
+          "rejected": 3,
+          "selections": 4
+        }
+      },
+      "duration": null,
+      "future_outcomes_available_at_selection": false,
+      "measured_cost": "signed simulated settlement only",
+      "original_sha256": "4fee54a2a9d464386b01308508ffd5bebb8a27c0047c1d34c9d241aeeb3899ea",
+      "protocol_sha256": "46c713b215628f01b1310dde4134040241e0af7627a09eb7d37e0f14c60beedb",
+      "real_payment": false,
+      "rows": [
+        {
+          "accepted": false,
+          "condition": "control",
+          "input_sha256": "46c8bcbd237ddacaefbfa447fba7fc5177ee1123e758e1957ad4dce1168183ee",
+          "job_id": "job-fcae5abfc183",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-0",
+          "task_content_sha256": "2424e94979ff7eae5c91fb97b3607a68f121cec3433f5959475cfe6117c2104a",
+          "worker": "openline:principal:a48c99091c14a32d560a40334a65818efbc58d30e51e4910d908a04645c3c89b"
+        },
+        {
+          "accepted": true,
+          "condition": "bureau",
+          "input_sha256": "497546a21b2c47f220a0b31d80be0cee4e0b6e78689f452ef8f5b1bcef6ac0ae",
+          "job_id": "job-9b1a90c08814",
+          "rejected": false,
+          "settled_sim_usd": 50,
+          "task": "heldout-0",
+          "task_content_sha256": "2424e94979ff7eae5c91fb97b3607a68f121cec3433f5959475cfe6117c2104a",
+          "worker": "openline:principal:5bca25e9e8ca647deea1b08e0afa0809519a87b55de03f3781005029eb61d42e"
+        },
+        {
+          "accepted": false,
+          "condition": "control",
+          "input_sha256": "6b4c607fb17aa73fb291aa40ba367bdc86a2f5260be12614c2c9a5e3f08f1ea6",
+          "job_id": "job-392a9fd27997",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-1",
+          "task_content_sha256": "b4b3f2111d42e73c21379f166b5d5963cdd2f24748211f4fa66bff0f3579b2ff",
+          "worker": "openline:principal:a48c99091c14a32d560a40334a65818efbc58d30e51e4910d908a04645c3c89b"
+        },
+        {
+          "accepted": true,
+          "condition": "bureau",
+          "input_sha256": "be7ac24042875a524213893375d2cbdc8333f378f8bb1e265fa4c950f6985814",
+          "job_id": "job-a73e2fbc02a9",
+          "rejected": false,
+          "settled_sim_usd": 50,
+          "task": "heldout-1",
+          "task_content_sha256": "b4b3f2111d42e73c21379f166b5d5963cdd2f24748211f4fa66bff0f3579b2ff",
+          "worker": "openline:principal:5bca25e9e8ca647deea1b08e0afa0809519a87b55de03f3781005029eb61d42e"
+        },
+        {
+          "accepted": false,
+          "condition": "control",
+          "input_sha256": "41a51d18ba63b97d1422558ebbfe95a2a4b0e5c699fbe534f50827c8fdf4c846",
+          "job_id": "job-8f9ddcb0dbfe",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-2",
+          "task_content_sha256": "6e683d93241b9bb475744d516bea7551d70398e937d705a7ca1bc4607f264295",
+          "worker": "openline:principal:a48c99091c14a32d560a40334a65818efbc58d30e51e4910d908a04645c3c89b"
+        },
+        {
+          "accepted": true,
+          "condition": "bureau",
+          "input_sha256": "dd4afca0c827636766f4e3981a5613024e85246f32e6d4fbfff27a6dfe575daf",
+          "job_id": "job-b3fee54d2e12",
+          "rejected": false,
+          "settled_sim_usd": 50,
+          "task": "heldout-2",
+          "task_content_sha256": "6e683d93241b9bb475744d516bea7551d70398e937d705a7ca1bc4607f264295",
+          "worker": "openline:principal:5bca25e9e8ca647deea1b08e0afa0809519a87b55de03f3781005029eb61d42e"
+        },
+        {
+          "accepted": true,
+          "condition": "control",
+          "input_sha256": "edccab4cad8bd8dbcae4193fb4ddc747a774c6348c5d6401d596d7c0374a1658",
+          "job_id": "job-ddf4d89203fb",
+          "rejected": false,
+          "settled_sim_usd": 40,
+          "task": "heldout-3",
+          "task_content_sha256": "cc5b6eaece6919728b1dc4b32099834b1fe99c4a72ba29617e68529651d3fab8",
+          "worker": "openline:principal:a48c99091c14a32d560a40334a65818efbc58d30e51e4910d908a04645c3c89b"
+        },
+        {
+          "accepted": false,
+          "condition": "bureau",
+          "input_sha256": "4ae8ee6858a799150fe864c641d4e1836a6c687e85fb48d8d636dbc75af36da2",
+          "job_id": "job-5d938401439e",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-3",
+          "task_content_sha256": "cc5b6eaece6919728b1dc4b32099834b1fe99c4a72ba29617e68529651d3fab8",
+          "worker": "openline:principal:5bca25e9e8ca647deea1b08e0afa0809519a87b55de03f3781005029eb61d42e"
+        }
+      ],
+      "scenario": "mixed",
+      "selection_sha256": "5ea4a2a6c106ae956bf5ed40cb3a4a7c61180bce7de92e5b5df3607a67dca993",
+      "source": "demo/bureau-allocation-001/recorded/mixed",
+      "sparse_history": false,
+      "synthetic": true,
+      "unmeasured_costs": [
+        "labor",
+        "compute",
+        "opportunity cost"
+      ],
+      "verdict": "ADVANTAGE"
+    },
+    {
+      "bureau_worse_tasks": [
+        "heldout-0",
+        "heldout-1",
+        "heldout-2",
+        "heldout-3"
+      ],
+      "completion_delta": -1.0,
+      "conditions": {
+        "bureau": {
+          "accepted": 0,
+          "accepted_per_settled_sim_usd": null,
+          "completion_rate": 0.0,
+          "observed_settled_sim_usd": 0,
+          "rejected": 4,
+          "selections": 4
+        },
+        "control": {
+          "accepted": 4,
+          "accepted_per_settled_sim_usd": 0.025,
+          "completion_rate": 1.0,
+          "observed_settled_sim_usd": 160,
+          "rejected": 0,
+          "selections": 4
+        }
+      },
+      "duration": null,
+      "future_outcomes_available_at_selection": false,
+      "measured_cost": "signed simulated settlement only",
+      "original_sha256": "0a811535c6479f3976bad5f65043b994d24f6fe599c82d5109832f325f4744cb",
+      "protocol_sha256": "46c713b215628f01b1310dde4134040241e0af7627a09eb7d37e0f14c60beedb",
+      "real_payment": false,
+      "rows": [
+        {
+          "accepted": true,
+          "condition": "control",
+          "input_sha256": "46c8bcbd237ddacaefbfa447fba7fc5177ee1123e758e1957ad4dce1168183ee",
+          "job_id": "job-d291d1e5efe5",
+          "rejected": false,
+          "settled_sim_usd": 40,
+          "task": "heldout-0",
+          "task_content_sha256": "2424e94979ff7eae5c91fb97b3607a68f121cec3433f5959475cfe6117c2104a",
+          "worker": "openline:principal:3e21caaefe67653bcd88bd1b7bfcf706ca66b1d6586241aa7493c9b096a9296c"
+        },
+        {
+          "accepted": false,
+          "condition": "bureau",
+          "input_sha256": "497546a21b2c47f220a0b31d80be0cee4e0b6e78689f452ef8f5b1bcef6ac0ae",
+          "job_id": "job-8f8d0958e71d",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-0",
+          "task_content_sha256": "2424e94979ff7eae5c91fb97b3607a68f121cec3433f5959475cfe6117c2104a",
+          "worker": "openline:principal:ad3df03e1c82988ca828e3c18fa2976a99a37674730be417076027892f3ac374"
+        },
+        {
+          "accepted": true,
+          "condition": "control",
+          "input_sha256": "6b4c607fb17aa73fb291aa40ba367bdc86a2f5260be12614c2c9a5e3f08f1ea6",
+          "job_id": "job-1c61caba6c3c",
+          "rejected": false,
+          "settled_sim_usd": 40,
+          "task": "heldout-1",
+          "task_content_sha256": "b4b3f2111d42e73c21379f166b5d5963cdd2f24748211f4fa66bff0f3579b2ff",
+          "worker": "openline:principal:3e21caaefe67653bcd88bd1b7bfcf706ca66b1d6586241aa7493c9b096a9296c"
+        },
+        {
+          "accepted": false,
+          "condition": "bureau",
+          "input_sha256": "be7ac24042875a524213893375d2cbdc8333f378f8bb1e265fa4c950f6985814",
+          "job_id": "job-efd4d5974e06",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-1",
+          "task_content_sha256": "b4b3f2111d42e73c21379f166b5d5963cdd2f24748211f4fa66bff0f3579b2ff",
+          "worker": "openline:principal:ad3df03e1c82988ca828e3c18fa2976a99a37674730be417076027892f3ac374"
+        },
+        {
+          "accepted": true,
+          "condition": "control",
+          "input_sha256": "41a51d18ba63b97d1422558ebbfe95a2a4b0e5c699fbe534f50827c8fdf4c846",
+          "job_id": "job-0dcc6ac958dd",
+          "rejected": false,
+          "settled_sim_usd": 40,
+          "task": "heldout-2",
+          "task_content_sha256": "6e683d93241b9bb475744d516bea7551d70398e937d705a7ca1bc4607f264295",
+          "worker": "openline:principal:3e21caaefe67653bcd88bd1b7bfcf706ca66b1d6586241aa7493c9b096a9296c"
+        },
+        {
+          "accepted": false,
+          "condition": "bureau",
+          "input_sha256": "dd4afca0c827636766f4e3981a5613024e85246f32e6d4fbfff27a6dfe575daf",
+          "job_id": "job-f9557208618d",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-2",
+          "task_content_sha256": "6e683d93241b9bb475744d516bea7551d70398e937d705a7ca1bc4607f264295",
+          "worker": "openline:principal:ad3df03e1c82988ca828e3c18fa2976a99a37674730be417076027892f3ac374"
+        },
+        {
+          "accepted": true,
+          "condition": "control",
+          "input_sha256": "edccab4cad8bd8dbcae4193fb4ddc747a774c6348c5d6401d596d7c0374a1658",
+          "job_id": "job-5c5bcddf481b",
+          "rejected": false,
+          "settled_sim_usd": 40,
+          "task": "heldout-3",
+          "task_content_sha256": "cc5b6eaece6919728b1dc4b32099834b1fe99c4a72ba29617e68529651d3fab8",
+          "worker": "openline:principal:3e21caaefe67653bcd88bd1b7bfcf706ca66b1d6586241aa7493c9b096a9296c"
+        },
+        {
+          "accepted": false,
+          "condition": "bureau",
+          "input_sha256": "4ae8ee6858a799150fe864c641d4e1836a6c687e85fb48d8d636dbc75af36da2",
+          "job_id": "job-f1957b589485",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-3",
+          "task_content_sha256": "cc5b6eaece6919728b1dc4b32099834b1fe99c4a72ba29617e68529651d3fab8",
+          "worker": "openline:principal:ad3df03e1c82988ca828e3c18fa2976a99a37674730be417076027892f3ac374"
+        }
+      ],
+      "scenario": "reversal",
+      "selection_sha256": "ca25bc452761368618c34958f1d95aca8964694953e917b6cf0aa0c1cecb5b89",
+      "source": "demo/bureau-allocation-001/recorded/reversal",
+      "sparse_history": false,
+      "synthetic": true,
+      "unmeasured_costs": [
+        "labor",
+        "compute",
+        "opportunity cost"
+      ],
+      "verdict": "NO_ADVANTAGE"
+    },
+    {
+      "bureau_worse_tasks": [],
+      "completion_delta": 0.0,
+      "conditions": {
+        "bureau": {
+          "accepted": 1,
+          "accepted_per_settled_sim_usd": 0.025,
+          "completion_rate": 0.25,
+          "observed_settled_sim_usd": 40,
+          "rejected": 3,
+          "selections": 4
+        },
+        "control": {
+          "accepted": 1,
+          "accepted_per_settled_sim_usd": 0.025,
+          "completion_rate": 0.25,
+          "observed_settled_sim_usd": 40,
+          "rejected": 3,
+          "selections": 4
+        }
+      },
+      "duration": null,
+      "future_outcomes_available_at_selection": false,
+      "measured_cost": "signed simulated settlement only",
+      "original_sha256": "615faffc6c344796f75176ef32a5155eec6bda2da898d976fa69a15446e979bb",
+      "protocol_sha256": "46c713b215628f01b1310dde4134040241e0af7627a09eb7d37e0f14c60beedb",
+      "real_payment": false,
+      "rows": [
+        {
+          "accepted": false,
+          "condition": "control",
+          "input_sha256": "46c8bcbd237ddacaefbfa447fba7fc5177ee1123e758e1957ad4dce1168183ee",
+          "job_id": "job-78c4b0fcf50b",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-0",
+          "task_content_sha256": "2424e94979ff7eae5c91fb97b3607a68f121cec3433f5959475cfe6117c2104a",
+          "worker": "openline:principal:e43a3e869f82eadb197be6edf38daf16e43807149d56dc66a1ce4fe455372f31"
+        },
+        {
+          "accepted": false,
+          "condition": "bureau",
+          "input_sha256": "497546a21b2c47f220a0b31d80be0cee4e0b6e78689f452ef8f5b1bcef6ac0ae",
+          "job_id": "job-4ee42469d35f",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-0",
+          "task_content_sha256": "2424e94979ff7eae5c91fb97b3607a68f121cec3433f5959475cfe6117c2104a",
+          "worker": "openline:principal:e43a3e869f82eadb197be6edf38daf16e43807149d56dc66a1ce4fe455372f31"
+        },
+        {
+          "accepted": false,
+          "condition": "control",
+          "input_sha256": "6b4c607fb17aa73fb291aa40ba367bdc86a2f5260be12614c2c9a5e3f08f1ea6",
+          "job_id": "job-5c6dd6a85ebb",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-1",
+          "task_content_sha256": "b4b3f2111d42e73c21379f166b5d5963cdd2f24748211f4fa66bff0f3579b2ff",
+          "worker": "openline:principal:e43a3e869f82eadb197be6edf38daf16e43807149d56dc66a1ce4fe455372f31"
+        },
+        {
+          "accepted": false,
+          "condition": "bureau",
+          "input_sha256": "be7ac24042875a524213893375d2cbdc8333f378f8bb1e265fa4c950f6985814",
+          "job_id": "job-f52d47909f65",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-1",
+          "task_content_sha256": "b4b3f2111d42e73c21379f166b5d5963cdd2f24748211f4fa66bff0f3579b2ff",
+          "worker": "openline:principal:e43a3e869f82eadb197be6edf38daf16e43807149d56dc66a1ce4fe455372f31"
+        },
+        {
+          "accepted": false,
+          "condition": "control",
+          "input_sha256": "41a51d18ba63b97d1422558ebbfe95a2a4b0e5c699fbe534f50827c8fdf4c846",
+          "job_id": "job-c47b9214a273",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-2",
+          "task_content_sha256": "6e683d93241b9bb475744d516bea7551d70398e937d705a7ca1bc4607f264295",
+          "worker": "openline:principal:e43a3e869f82eadb197be6edf38daf16e43807149d56dc66a1ce4fe455372f31"
+        },
+        {
+          "accepted": false,
+          "condition": "bureau",
+          "input_sha256": "dd4afca0c827636766f4e3981a5613024e85246f32e6d4fbfff27a6dfe575daf",
+          "job_id": "job-605c87320c03",
+          "rejected": true,
+          "settled_sim_usd": null,
+          "task": "heldout-2",
+          "task_content_sha256": "6e683d93241b9bb475744d516bea7551d70398e937d705a7ca1bc4607f264295",
+          "worker": "openline:principal:e43a3e869f82eadb197be6edf38daf16e43807149d56dc66a1ce4fe455372f31"
+        },
+        {
+          "accepted": true,
+          "condition": "control",
+          "input_sha256": "edccab4cad8bd8dbcae4193fb4ddc747a774c6348c5d6401d596d7c0374a1658",
+          "job_id": "job-ad585b68895f",
+          "rejected": false,
+          "settled_sim_usd": 40,
+          "task": "heldout-3",
+          "task_content_sha256": "cc5b6eaece6919728b1dc4b32099834b1fe99c4a72ba29617e68529651d3fab8",
+          "worker": "openline:principal:e43a3e869f82eadb197be6edf38daf16e43807149d56dc66a1ce4fe455372f31"
+        },
+        {
+          "accepted": true,
+          "condition": "bureau",
+          "input_sha256": "4ae8ee6858a799150fe864c641d4e1836a6c687e85fb48d8d636dbc75af36da2",
+          "job_id": "job-a5c8e2e50b22",
+          "rejected": false,
+          "settled_sim_usd": 40,
+          "task": "heldout-3",
+          "task_content_sha256": "cc5b6eaece6919728b1dc4b32099834b1fe99c4a72ba29617e68529651d3fab8",
+          "worker": "openline:principal:e43a3e869f82eadb197be6edf38daf16e43807149d56dc66a1ce4fe455372f31"
+        }
+      ],
+      "scenario": "sparse",
+      "selection_sha256": "b65743016bf789623eee1cd6c0622619cd0ff7309d42193df980bc5ef5832b63",
+      "source": "demo/bureau-allocation-001/recorded/sparse",
+      "sparse_history": true,
+      "synthetic": true,
+      "unmeasured_costs": [
+        "labor",
+        "compute",
+        "opportunity cost"
+      ],
+      "verdict": "INCONCLUSIVE"
+    }
+  ],
+  "synthetic": true,
+  "trust_boundary": "Locally controlled buyer and workers. Recorded SHA-256 checks preserve published artifacts, not independent commercial attestation."
+}

@@ -1,0 +1,1567 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/terryncew/openline-bureau/blob/main/catalog/schemas/catalog.schema.json",
+  "title": "OpenLine public beta catalog v1",
+  "description": "The data-only Bureau compiler adds URL safety, size budgets, exact digest binding, role and reference checks beyond this shape schema.",
+  "type": "object",
+  "properties": {
+    "format": {
+      "const": "openline.catalog.v1"
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "submission": {
+      "type": "object",
+      "properties": {
+        "repository_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://[^\\s]+$"
+        },
+        "contribution_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://[^\\s]+$"
+        },
+        "catalog_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://[^\\s]+$"
+        }
+      },
+      "required": [
+        "repository_url",
+        "contribution_url",
+        "catalog_url"
+      ],
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "inquiries_enabled": {
+          "type": "boolean"
+        },
+        "payment_processing": {
+          "const": false
+        },
+        "contributed_code_execution": {
+          "const": false
+        },
+        "attribution_limit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "ranking": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "fixture_notice": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "inquiries_enabled",
+        "payment_processing",
+        "contributed_code_execution",
+        "attribution_limit",
+        "ranking"
+      ],
+      "additionalProperties": false
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "const": "openline.capability.v1"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+          },
+          "public_release": {
+            "type": "object",
+            "properties": {
+              "authorized": {
+                "const": true
+              },
+              "rights_confirmed": {
+                "const": true
+              },
+              "contains_private_data": {
+                "const": false
+              }
+            },
+            "required": [
+              "authorized",
+              "rights_confirmed",
+              "contains_private_data"
+            ],
+            "additionalProperties": false
+          },
+          "synthetic": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[a-zA-Z0-9.-]+)?$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "minItems": 1,
+            "maxItems": 30
+          },
+          "contributor_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 39,
+            "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+          },
+          "worker_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provenance": {
+            "type": "object",
+            "properties": {
+              "source_url": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048,
+                "pattern": "^https://[^\\s]+$"
+              },
+              "source_revision": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "pattern": "^[0-9a-f]{40}(?:[0-9a-f]{24})?$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "authors": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "minItems": 1,
+                "maxItems": 30
+              }
+            },
+            "required": [
+              "source_url",
+              "source_revision",
+              "authors"
+            ],
+            "additionalProperties": false
+          },
+          "usage_terms": {
+            "type": "object",
+            "properties": {
+              "license": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "summary": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              }
+            },
+            "required": [
+              "license",
+              "summary"
+            ],
+            "additionalProperties": false
+          },
+          "price": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 20,
+                    "pattern": "^(0|[1-9][0-9]{0,8})(?:\\.[0-9]{1,4})?$"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "pattern": "^[A-Z]{3}$|^SIM_USD$"
+                  },
+                  "basis": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                },
+                "required": [
+                  "amount",
+                  "currency",
+                  "basis"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "inquiry": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "const": "https://github.com/terryncew/openline-bureau/issues/new"
+              },
+              "accepts_inquiries": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "url",
+              "accepts_inquiries"
+            ],
+            "additionalProperties": false
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "minItems": 0,
+            "maxItems": 50
+          },
+          "lineage": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "capability_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+                },
+                "version": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[a-zA-Z0-9.-]+)?$"
+                },
+                "record_sha256": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "relation": {
+                  "enum": [
+                    "improves",
+                    "derived_from",
+                    "evaluates"
+                  ]
+                }
+              },
+              "required": [
+                "capability_id",
+                "version",
+                "record_sha256",
+                "relation"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0,
+            "maxItems": 20
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 240
+                },
+                "sha256": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "format": {
+                  "enum": [
+                    "bureau.receipt.v0.1",
+                    "openline.wallet.effect_receipt.v1",
+                    "openline.gate.action_receipt.v1",
+                    "openline.catalog.signed-receipt.v1",
+                    "openline.exchange.selected-evidence.v1"
+                  ]
+                },
+                "source_url": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 240
+                },
+                "status": {
+                  "enum": [
+                    "VALID",
+                    "CONFORMANT_NO_CLAIMS",
+                    "STRUCTURALLY_VALID"
+                  ]
+                },
+                "cryptographic_authenticity": {
+                  "enum": [
+                    "UNKNOWN",
+                    "AUTHENTICATED_KEY"
+                  ]
+                },
+                "signer_principal": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4000
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "supported_claims": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "minItems": 0,
+                  "maxItems": 100
+                },
+                "missing_claims": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "minItems": 0,
+                  "maxItems": 100
+                },
+                "outcome_verification": {
+                  "const": "NOT_ESTABLISHED"
+                },
+                "authenticity_limit": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4000
+                }
+              },
+              "required": [
+                "path",
+                "sha256",
+                "format",
+                "source_url",
+                "status",
+                "cryptographic_authenticity",
+                "signer_principal",
+                "supported_claims",
+                "missing_claims",
+                "outcome_verification",
+                "authenticity_limit"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "record_sha256": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "record_url": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "publication": {
+            "type": "object",
+            "properties": {
+              "reviewed": {
+                "type": "boolean"
+              },
+              "identity_basis": {
+                "enum": [
+                  "MAINTAINER_ATTESTED_GITHUB_AUTHOR",
+                  "UNREVIEWED_CLAIM"
+                ]
+              },
+              "source_pr_url": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048,
+                    "pattern": "^https://[^\\s]+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "identity_limit": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              }
+            },
+            "required": [
+              "reviewed",
+              "identity_basis",
+              "source_pr_url",
+              "identity_limit"
+            ],
+            "additionalProperties": false
+          },
+          "evidence_summary": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "enum": [
+                  "SELF_REPORTED",
+                  "INDEPENDENTLY_REPORTED",
+                  "INDEPENDENTLY_REPRODUCED",
+                  "SYNTHETIC"
+                ]
+              },
+              "receipt_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "independent_evaluation_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "reproduced_evaluation_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "cryptographic_authenticity": {
+                "enum": [
+                  "UNKNOWN",
+                  "AUTHENTICATED_KEY",
+                  "MIXED"
+                ]
+              },
+              "missing": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4000
+                },
+                "minItems": 0,
+                "maxItems": 100
+              },
+              "scope": {
+                "enum": [
+                  "CAPABILITY_ONLY",
+                  "WORKER_EXECUTIONS_ONLY"
+                ]
+              },
+              "sample_context": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "dataset": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 1000
+                    },
+                    "selection": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "total": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 1000
+                    },
+                    "passed": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1000
+                    },
+                    "failed": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1000
+                    },
+                    "inconclusive": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1000
+                    },
+                    "task": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4000
+                    },
+                    "evaluation_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+                    },
+                    "outcome_verification": {
+                      "enum": [
+                        "EVALUATOR_REPORTED",
+                        "MAINTAINER_REPRODUCED",
+                        "SYNTHETIC"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "dataset",
+                    "selection",
+                    "total",
+                    "passed",
+                    "failed",
+                    "inconclusive",
+                    "task",
+                    "evaluation_id",
+                    "outcome_verification"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 1000
+              }
+            },
+            "required": [
+              "label",
+              "receipt_count",
+              "independent_evaluation_count",
+              "reproduced_evaluation_count",
+              "cryptographic_authenticity",
+              "missing",
+              "scope",
+              "sample_context"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "format",
+          "id",
+          "public_release",
+          "synthetic",
+          "version",
+          "name",
+          "summary",
+          "tasks",
+          "contributor_id",
+          "worker_id",
+          "provenance",
+          "usage_terms",
+          "price",
+          "inquiry",
+          "limitations",
+          "lineage",
+          "evidence",
+          "record_sha256",
+          "record_url",
+          "publication",
+          "evidence_summary"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 2000
+    },
+    "workers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "const": "openline.worker.v1"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+          },
+          "public_release": {
+            "type": "object",
+            "properties": {
+              "authorized": {
+                "const": true
+              },
+              "rights_confirmed": {
+                "const": true
+              },
+              "contains_private_data": {
+                "const": false
+              }
+            },
+            "required": [
+              "authorized",
+              "rights_confirmed",
+              "contains_private_data"
+            ],
+            "additionalProperties": false
+          },
+          "synthetic": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "contributor_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 39,
+            "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+          },
+          "capability_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+            },
+            "minItems": 1,
+            "maxItems": 100
+          },
+          "provenance": {
+            "type": "object",
+            "properties": {
+              "source_url": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048,
+                "pattern": "^https://[^\\s]+$"
+              },
+              "source_revision": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "pattern": "^[0-9a-f]{40}(?:[0-9a-f]{24})?$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "authors": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "minItems": 1,
+                "maxItems": 30
+              }
+            },
+            "required": [
+              "source_url",
+              "source_revision",
+              "authors"
+            ],
+            "additionalProperties": false
+          },
+          "inquiry": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "const": "https://github.com/terryncew/openline-bureau/issues/new"
+              },
+              "accepts_inquiries": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "url",
+              "accepts_inquiries"
+            ],
+            "additionalProperties": false
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "minItems": 0,
+            "maxItems": 50
+          },
+          "record_sha256": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "record_url": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "publication": {
+            "type": "object",
+            "properties": {
+              "reviewed": {
+                "type": "boolean"
+              },
+              "identity_basis": {
+                "enum": [
+                  "MAINTAINER_ATTESTED_GITHUB_AUTHOR",
+                  "UNREVIEWED_CLAIM"
+                ]
+              },
+              "source_pr_url": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048,
+                    "pattern": "^https://[^\\s]+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "identity_limit": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              }
+            },
+            "required": [
+              "reviewed",
+              "identity_basis",
+              "source_pr_url",
+              "identity_limit"
+            ],
+            "additionalProperties": false
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 240
+                },
+                "sha256": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "format": {
+                  "enum": [
+                    "bureau.receipt.v0.1",
+                    "openline.wallet.effect_receipt.v1",
+                    "openline.gate.action_receipt.v1",
+                    "openline.catalog.signed-receipt.v1",
+                    "openline.exchange.selected-evidence.v1"
+                  ]
+                },
+                "source_url": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 240
+                },
+                "status": {
+                  "enum": [
+                    "VALID",
+                    "CONFORMANT_NO_CLAIMS",
+                    "STRUCTURALLY_VALID"
+                  ]
+                },
+                "cryptographic_authenticity": {
+                  "enum": [
+                    "UNKNOWN",
+                    "AUTHENTICATED_KEY"
+                  ]
+                },
+                "signer_principal": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4000
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "supported_claims": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "minItems": 0,
+                  "maxItems": 100
+                },
+                "missing_claims": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "minItems": 0,
+                  "maxItems": 100
+                },
+                "outcome_verification": {
+                  "const": "NOT_ESTABLISHED"
+                },
+                "authenticity_limit": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4000
+                }
+              },
+              "required": [
+                "path",
+                "sha256",
+                "format",
+                "source_url",
+                "status",
+                "cryptographic_authenticity",
+                "signer_principal",
+                "supported_claims",
+                "missing_claims",
+                "outcome_verification",
+                "authenticity_limit"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "evidence_summary": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "enum": [
+                  "SELF_REPORTED",
+                  "INDEPENDENTLY_REPORTED",
+                  "INDEPENDENTLY_REPRODUCED",
+                  "SYNTHETIC"
+                ]
+              },
+              "receipt_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "independent_evaluation_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "reproduced_evaluation_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "cryptographic_authenticity": {
+                "enum": [
+                  "UNKNOWN",
+                  "AUTHENTICATED_KEY",
+                  "MIXED"
+                ]
+              },
+              "missing": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4000
+                },
+                "minItems": 0,
+                "maxItems": 100
+              },
+              "scope": {
+                "enum": [
+                  "CAPABILITY_ONLY",
+                  "WORKER_EXECUTIONS_ONLY"
+                ]
+              },
+              "sample_context": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "dataset": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 1000
+                    },
+                    "selection": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "total": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 1000
+                    },
+                    "passed": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1000
+                    },
+                    "failed": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1000
+                    },
+                    "inconclusive": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1000
+                    },
+                    "task": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4000
+                    },
+                    "evaluation_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+                    },
+                    "outcome_verification": {
+                      "enum": [
+                        "EVALUATOR_REPORTED",
+                        "MAINTAINER_REPRODUCED",
+                        "SYNTHETIC"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "dataset",
+                    "selection",
+                    "total",
+                    "passed",
+                    "failed",
+                    "inconclusive",
+                    "task",
+                    "evaluation_id",
+                    "outcome_verification"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 1000
+              }
+            },
+            "required": [
+              "label",
+              "receipt_count",
+              "independent_evaluation_count",
+              "reproduced_evaluation_count",
+              "cryptographic_authenticity",
+              "missing",
+              "scope",
+              "sample_context"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "format",
+          "id",
+          "public_release",
+          "synthetic",
+          "name",
+          "summary",
+          "contributor_id",
+          "capability_ids",
+          "provenance",
+          "inquiry",
+          "limitations",
+          "record_sha256",
+          "record_url",
+          "publication",
+          "evidence",
+          "evidence_summary"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 2000
+    },
+    "evaluations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "const": "openline.evaluation.v1"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+          },
+          "public_release": {
+            "type": "object",
+            "properties": {
+              "authorized": {
+                "const": true
+              },
+              "rights_confirmed": {
+                "const": true
+              },
+              "contains_private_data": {
+                "const": false
+              }
+            },
+            "required": [
+              "authorized",
+              "rights_confirmed",
+              "contains_private_data"
+            ],
+            "additionalProperties": false
+          },
+          "synthetic": {
+            "type": "boolean"
+          },
+          "capability_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+          },
+          "capability_version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[a-zA-Z0-9.-]+)?$"
+          },
+          "worker_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evaluator_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 39,
+            "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+          },
+          "task": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "method": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "sample": {
+            "type": "object",
+            "properties": {
+              "dataset": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              "selection": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "total": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000
+              },
+              "passed": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "failed": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "inconclusive": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              }
+            },
+            "required": [
+              "dataset",
+              "selection",
+              "total",
+              "passed",
+              "failed",
+              "inconclusive"
+            ],
+            "additionalProperties": false
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "case_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "outcome": {
+                  "enum": [
+                    "PASS",
+                    "FAIL",
+                    "INCONCLUSIVE"
+                  ]
+                },
+                "summary": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                }
+              },
+              "required": [
+                "case_id",
+                "outcome",
+                "summary"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1,
+            "maxItems": 1000
+          },
+          "failures": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "minItems": 0,
+            "maxItems": 50
+          },
+          "environment": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "conflicts": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 240
+                },
+                "sha256": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "format": {
+                  "enum": [
+                    "bureau.receipt.v0.1",
+                    "openline.wallet.effect_receipt.v1",
+                    "openline.gate.action_receipt.v1",
+                    "openline.catalog.signed-receipt.v1",
+                    "openline.exchange.selected-evidence.v1"
+                  ]
+                },
+                "source_url": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 240
+                },
+                "status": {
+                  "enum": [
+                    "VALID",
+                    "CONFORMANT_NO_CLAIMS",
+                    "STRUCTURALLY_VALID"
+                  ]
+                },
+                "cryptographic_authenticity": {
+                  "enum": [
+                    "UNKNOWN",
+                    "AUTHENTICATED_KEY"
+                  ]
+                },
+                "signer_principal": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4000
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "supported_claims": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "minItems": 0,
+                  "maxItems": 100
+                },
+                "missing_claims": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "minItems": 0,
+                  "maxItems": 100
+                },
+                "outcome_verification": {
+                  "const": "NOT_ESTABLISHED"
+                },
+                "authenticity_limit": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4000
+                }
+              },
+              "required": [
+                "path",
+                "sha256",
+                "format",
+                "source_url",
+                "status",
+                "cryptographic_authenticity",
+                "signer_principal",
+                "supported_claims",
+                "missing_claims",
+                "outcome_verification",
+                "authenticity_limit"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "record_sha256": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "record_url": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "publication": {
+            "type": "object",
+            "properties": {
+              "reviewed": {
+                "type": "boolean"
+              },
+              "identity_basis": {
+                "enum": [
+                  "MAINTAINER_ATTESTED_GITHUB_AUTHOR",
+                  "UNREVIEWED_CLAIM"
+                ]
+              },
+              "source_pr_url": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048,
+                    "pattern": "^https://[^\\s]+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "identity_limit": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              }
+            },
+            "required": [
+              "reviewed",
+              "identity_basis",
+              "source_pr_url",
+              "identity_limit"
+            ],
+            "additionalProperties": false
+          },
+          "reproduction": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "reviewer": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 39,
+                    "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+                  },
+                  "method": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "environment": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "sample": {
+                    "type": "object",
+                    "properties": {
+                      "dataset": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000
+                      },
+                      "selection": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      },
+                      "total": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1000
+                      },
+                      "passed": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 1000
+                      },
+                      "failed": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 1000
+                      },
+                      "inconclusive": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 1000
+                      }
+                    },
+                    "required": [
+                      "dataset",
+                      "selection",
+                      "total",
+                      "passed",
+                      "failed",
+                      "inconclusive"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "report_sha256": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "source_url": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  }
+                },
+                "required": [
+                  "reviewer",
+                  "method",
+                  "environment",
+                  "sample",
+                  "report_sha256",
+                  "source_url"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "outcome_verification": {
+            "enum": [
+              "EVALUATOR_REPORTED",
+              "MAINTAINER_REPRODUCED",
+              "SYNTHETIC"
+            ]
+          },
+          "scope": {
+            "enum": [
+              "CAPABILITY",
+              "WORKER_EXECUTION"
+            ]
+          },
+          "independence": {
+            "enum": [
+              "SEPARATE_REVIEWED_CONTRIBUTOR",
+              "NOT_INDEPENDENT"
+            ]
+          },
+          "independence_limit": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          }
+        },
+        "required": [
+          "format",
+          "id",
+          "public_release",
+          "synthetic",
+          "capability_id",
+          "capability_version",
+          "worker_id",
+          "evaluator_id",
+          "task",
+          "method",
+          "sample",
+          "results",
+          "failures",
+          "limitations",
+          "environment",
+          "conflicts",
+          "evidence",
+          "record_sha256",
+          "record_url",
+          "publication",
+          "reproduction",
+          "outcome_verification",
+          "scope",
+          "independence",
+          "independence_limit"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 2000
+    }
+  },
+  "required": [
+    "format",
+    "synthetic",
+    "submission",
+    "policy",
+    "capabilities",
+    "workers",
+    "evaluations"
+  ],
+  "additionalProperties": false
+}

@@ -7,12 +7,14 @@
   .tag{display:inline-block;padding:.2em .6em;border-radius:6px;color:#fff}
 </style>
 <h1>openline-exchange</h1>
+<p><a href="./beta/">Explore the OpenLine Exchange public beta preview →</a></p>
+<p>Legacy receipt display. The check below verifies only expected JSON fields; it does not authenticate a signature or verify a task outcome.</p>
 <p>Receipt status: <b id="verified-tag" class="tag">Pending</b></p>
 <p><a href="./receipt.latest.json">receipt.latest.json</a> · <a href="./status.json">status.json</a></p>
 <script>
 fetch('./status.json?'+Date.now()).then(r=>r.json()).then(s=>{
   const tag=document.getElementById('verified-tag');
-  tag.textContent = s.verified ? 'Verified (v1.2)' : 'Pending';
+  tag.textContent = s.verified ? 'Expected v1.2 fields present' : 'Expected fields not confirmed';
   tag.style.background = s.verified ? '#065f46' : '#92400e';
 }).catch(()=>{});
 </script>

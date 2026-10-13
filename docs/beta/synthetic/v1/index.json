@@ -1,0 +1,589 @@
+{
+  "capabilities": [
+    {
+      "contributor_id": "synthetic-bob",
+      "evidence": [],
+      "evidence_summary": {
+        "cryptographic_authenticity": "UNKNOWN",
+        "independent_evaluation_count": 1,
+        "label": "SYNTHETIC",
+        "missing": [
+          "Supporting receipts",
+          "Independent reproduction of task outcomes",
+          "Cryptographic authentication of receipt keys"
+        ],
+        "receipt_count": 0,
+        "reproduced_evaluation_count": 0,
+        "sample_context": [
+          {
+            "dataset": "Three invented fixture strings",
+            "evaluation_id": "synthetic-summary-eval",
+            "failed": 2,
+            "inconclusive": 0,
+            "outcome_verification": "SYNTHETIC",
+            "passed": 1,
+            "selection": "Synthetic hand-selected examples; not a representative benchmark.",
+            "task": "structured summary",
+            "total": 3
+          }
+        ],
+        "scope": "CAPABILITY_ONLY"
+      },
+      "format": "openline.capability.v1",
+      "id": "synthetic-structured-summary",
+      "inquiry": {
+        "accepts_inquiries": false,
+        "url": "https://github.com/terryncew/openline-bureau/issues/new"
+      },
+      "limitations": [
+        "Synthetic fixture only.",
+        "Long or ambiguous documents failed these synthetic cases."
+      ],
+      "lineage": [],
+      "name": "Synthetic structured summary",
+      "price": null,
+      "provenance": {
+        "authors": [
+          "Synthetic fixture; no real contributor"
+        ],
+        "source_revision": null,
+        "source_url": "https://github.com/terryncew/openline-bureau"
+      },
+      "public_release": {
+        "authorized": true,
+        "contains_private_data": false,
+        "rights_confirmed": true
+      },
+      "publication": {
+        "identity_basis": "MAINTAINER_ATTESTED_GITHUB_AUTHOR",
+        "identity_limit": "The compiler does not authenticate GitHub authors, legal identity or organizational independence.",
+        "reviewed": true,
+        "source_pr_url": "https://github.com/terryncew/openline-bureau/pull/1"
+      },
+      "record_sha256": "af3145ac2345c5d338e6320d603fa78d443c5d04029fea19d771be6094c6ce50",
+      "record_url": "submissions/capabilities/structured-summary-1.0.0.json",
+      "summary": "Synthetic fixture demonstrating documented failure results for structured summaries. No real developer or service is represented.",
+      "synthetic": true,
+      "tasks": [
+        "structured summary",
+        "failure review"
+      ],
+      "usage_terms": {
+        "license": "CC0-1.0 (fixture metadata only)",
+        "summary": "Synthetic metadata for interface testing. Does not license any third-party code."
+      },
+      "version": "1.0.0",
+      "worker_id": "synthetic-summary-worker"
+    },
+    {
+      "contributor_id": "synthetic-alice",
+      "evidence": [],
+      "evidence_summary": {
+        "cryptographic_authenticity": "UNKNOWN",
+        "independent_evaluation_count": 1,
+        "label": "SYNTHETIC",
+        "missing": [
+          "Supporting receipts",
+          "Independent reproduction of task outcomes",
+          "Cryptographic authentication of receipt keys"
+        ],
+        "receipt_count": 0,
+        "reproduced_evaluation_count": 0,
+        "sample_context": [
+          {
+            "dataset": "Three invented fixture strings",
+            "evaluation_id": "synthetic-digest-original-eval",
+            "failed": 1,
+            "inconclusive": 0,
+            "outcome_verification": "SYNTHETIC",
+            "passed": 2,
+            "selection": "Synthetic hand-selected examples; not a representative benchmark.",
+            "task": "word count",
+            "total": 3
+          }
+        ],
+        "scope": "CAPABILITY_ONLY"
+      },
+      "format": "openline.capability.v1",
+      "id": "synthetic-text-digest",
+      "inquiry": {
+        "accepts_inquiries": false,
+        "url": "https://github.com/terryncew/openline-bureau/issues/new"
+      },
+      "limitations": [
+        "Synthetic fixture only; no demonstrated service performance.",
+        "Text counting conventions exclude no edge cases unless individually documented."
+      ],
+      "lineage": [],
+      "name": "Synthetic text digest",
+      "price": {
+        "amount": "5.00",
+        "basis": "Synthetic fixture quote per text document; no real currency transfer.",
+        "currency": "SIM_USD"
+      },
+      "provenance": {
+        "authors": [
+          "Synthetic fixture; no real contributor"
+        ],
+        "source_revision": null,
+        "source_url": "https://github.com/terryncew/openline-bureau"
+      },
+      "public_release": {
+        "authorized": true,
+        "contains_private_data": false,
+        "rights_confirmed": true
+      },
+      "publication": {
+        "identity_basis": "MAINTAINER_ATTESTED_GITHUB_AUTHOR",
+        "identity_limit": "The compiler does not authenticate GitHub authors, legal identity or organizational independence.",
+        "reviewed": true,
+        "source_pr_url": "https://github.com/terryncew/openline-bureau/pull/1"
+      },
+      "record_sha256": "20ca591a9fc6661cefdb72de0e5b87bbb99eb981d1d973d9676b89f6b65fdba1",
+      "record_url": "submissions/capabilities/text-digest-1.0.0.json",
+      "summary": "Synthetic fixture demonstrating text statistics and deterministic digest evidence. No real service is offered.",
+      "synthetic": true,
+      "tasks": [
+        "text digest",
+        "word count"
+      ],
+      "usage_terms": {
+        "license": "CC0-1.0 (fixture metadata only)",
+        "summary": "Synthetic metadata for interface testing. Does not license any third-party code."
+      },
+      "version": "1.0.0",
+      "worker_id": "synthetic-digest-worker"
+    },
+    {
+      "contributor_id": "synthetic-alice",
+      "evidence": [
+        {
+          "authenticity_limit": "A valid signature binds a key to bytes; it does not verify the reported outcome or legal identity.",
+          "cryptographic_authenticity": "UNKNOWN",
+          "format": "bureau.receipt.v0.1",
+          "missing_claims": [
+            "EFFECT_ABSENCE_OBSERVED",
+            "CURRENT_AUTHORITY_OBSERVED",
+            "REVOCATION_OBSERVED",
+            "POST_REVOCATION_ATTEMPT_OBSERVED",
+            "REVOCATION_ENFORCEMENT_OBSERVED",
+            "SUCCESSOR_AUTHORITY_OBSERVED",
+            "PROVENANCE_CHAIN_OBSERVED",
+            "REPLAY_ATTEMPT_OBSERVED",
+            "STALE_ARTIFACT_ATTEMPT_OBSERVED",
+            "RECOVERY_CONTINUATION_OBSERVED"
+          ],
+          "outcome_verification": "NOT_ESTABLISHED",
+          "path": "evidence/synthetic-digest-receipt.json",
+          "sha256": "86a40de2ae70c1ba940072c90f76a468fa0f7358e83389c405f73bee5de2e2e9",
+          "signer_principal": null,
+          "source_url": "evidence/synthetic-digest-receipt.json",
+          "status": "VALID",
+          "supported_claims": [
+            "ACTION_ATTEMPT_OBSERVED",
+            "RECEIVER_DECISION_OBSERVED",
+            "EFFECT_OBSERVED"
+          ]
+        }
+      ],
+      "evidence_summary": {
+        "cryptographic_authenticity": "UNKNOWN",
+        "independent_evaluation_count": 1,
+        "label": "SYNTHETIC",
+        "missing": [
+          "Independent reproduction of task outcomes",
+          "Cryptographic authentication of receipt keys"
+        ],
+        "receipt_count": 1,
+        "reproduced_evaluation_count": 0,
+        "sample_context": [
+          {
+            "dataset": "Three invented fixture strings",
+            "evaluation_id": "synthetic-digest-revision-eval",
+            "failed": 0,
+            "inconclusive": 0,
+            "outcome_verification": "SYNTHETIC",
+            "passed": 3,
+            "selection": "Synthetic hand-selected examples; not a representative benchmark.",
+            "task": "word count",
+            "total": 3
+          }
+        ],
+        "scope": "CAPABILITY_ONLY"
+      },
+      "format": "openline.capability.v1",
+      "id": "synthetic-text-digest",
+      "inquiry": {
+        "accepts_inquiries": false,
+        "url": "https://github.com/terryncew/openline-bureau/issues/new"
+      },
+      "limitations": [
+        "Synthetic fixture only; no demonstrated service performance.",
+        "Text counting conventions exclude no edge cases unless individually documented."
+      ],
+      "lineage": [
+        {
+          "capability_id": "synthetic-text-digest",
+          "record_sha256": "20ca591a9fc6661cefdb72de0e5b87bbb99eb981d1d973d9676b89f6b65fdba1",
+          "relation": "improves",
+          "version": "1.0.0"
+        }
+      ],
+      "name": "Synthetic text digest — revision",
+      "price": {
+        "amount": "4.00",
+        "basis": "Synthetic fixture quote per text document; no real currency transfer.",
+        "currency": "SIM_USD"
+      },
+      "provenance": {
+        "authors": [
+          "Synthetic fixture; no real contributor"
+        ],
+        "source_revision": null,
+        "source_url": "https://github.com/terryncew/openline-bureau"
+      },
+      "public_release": {
+        "authorized": true,
+        "contains_private_data": false,
+        "rights_confirmed": true
+      },
+      "publication": {
+        "identity_basis": "MAINTAINER_ATTESTED_GITHUB_AUTHOR",
+        "identity_limit": "The compiler does not authenticate GitHub authors, legal identity or organizational independence.",
+        "reviewed": true,
+        "source_pr_url": "https://github.com/terryncew/openline-bureau/pull/1"
+      },
+      "record_sha256": "d31814ea5e560cc316561775255fadcf0d2bb32ce7090220313aac11e7468843",
+      "record_url": "submissions/capabilities/text-digest-1.1.0.json",
+      "summary": "Synthetic improved fixture demonstrating version lineage and attributed evidence history. No service or legal ownership is established.",
+      "synthetic": true,
+      "tasks": [
+        "text digest",
+        "word count"
+      ],
+      "usage_terms": {
+        "license": "CC0-1.0 (fixture metadata only)",
+        "summary": "Synthetic metadata for interface testing. Does not license any third-party code."
+      },
+      "version": "1.1.0",
+      "worker_id": "synthetic-digest-worker"
+    }
+  ],
+  "evaluations": [
+    {
+      "capability_id": "synthetic-text-digest",
+      "capability_version": "1.0.0",
+      "conflicts": "Synthetic identities; no real independence is asserted.",
+      "environment": "Synthetic fixture; no runtime was used.",
+      "evaluator_id": "synthetic-evaluator",
+      "evidence": [],
+      "failures": [
+        "Invented edge case failure; no actual outcome verified."
+      ],
+      "format": "openline.evaluation.v1",
+      "id": "synthetic-digest-original-eval",
+      "independence": "SEPARATE_REVIEWED_CONTRIBUTOR",
+      "independence_limit": "Separate reviewed GitHub contributors; account control, affiliation and reported conflicts are not independently established.",
+      "limitations": [
+        "All results are synthetic.",
+        "Small selected sample does not establish general performance."
+      ],
+      "method": "Synthetic fixture report. No real execution or independent reproduction occurred.",
+      "outcome_verification": "SYNTHETIC",
+      "public_release": {
+        "authorized": true,
+        "contains_private_data": false,
+        "rights_confirmed": true
+      },
+      "publication": {
+        "identity_basis": "MAINTAINER_ATTESTED_GITHUB_AUTHOR",
+        "identity_limit": "The compiler does not authenticate GitHub authors, legal identity or organizational independence.",
+        "reviewed": true,
+        "source_pr_url": "https://github.com/terryncew/openline-bureau/pull/1"
+      },
+      "record_sha256": "e20b0ad23a17566f7425758e900c4a9bc2e2335adaed807456229369f0a62c71",
+      "record_url": "submissions/evaluations/synthetic-digest-original-eval.json",
+      "reproduction": null,
+      "results": [
+        {
+          "case_id": "fixture-1",
+          "outcome": "PASS",
+          "summary": "Invented synthetic outcome for interface testing; no actual execution."
+        },
+        {
+          "case_id": "fixture-2",
+          "outcome": "PASS",
+          "summary": "Invented synthetic outcome for interface testing; no actual execution."
+        },
+        {
+          "case_id": "fixture-3",
+          "outcome": "FAIL",
+          "summary": "Invented synthetic outcome for interface testing; no actual execution."
+        }
+      ],
+      "sample": {
+        "dataset": "Three invented fixture strings",
+        "failed": 1,
+        "inconclusive": 0,
+        "passed": 2,
+        "selection": "Synthetic hand-selected examples; not a representative benchmark.",
+        "total": 3
+      },
+      "scope": "CAPABILITY",
+      "synthetic": true,
+      "task": "word count",
+      "worker_id": null
+    },
+    {
+      "capability_id": "synthetic-text-digest",
+      "capability_version": "1.1.0",
+      "conflicts": "Synthetic identities; no real independence is asserted.",
+      "environment": "Synthetic fixture; no runtime was used.",
+      "evaluator_id": "synthetic-evaluator",
+      "evidence": [],
+      "failures": [],
+      "format": "openline.evaluation.v1",
+      "id": "synthetic-digest-revision-eval",
+      "independence": "SEPARATE_REVIEWED_CONTRIBUTOR",
+      "independence_limit": "Separate reviewed GitHub contributors; account control, affiliation and reported conflicts are not independently established.",
+      "limitations": [
+        "All results are synthetic.",
+        "Small selected sample does not establish general performance."
+      ],
+      "method": "Synthetic fixture report. No real execution or independent reproduction occurred.",
+      "outcome_verification": "SYNTHETIC",
+      "public_release": {
+        "authorized": true,
+        "contains_private_data": false,
+        "rights_confirmed": true
+      },
+      "publication": {
+        "identity_basis": "MAINTAINER_ATTESTED_GITHUB_AUTHOR",
+        "identity_limit": "The compiler does not authenticate GitHub authors, legal identity or organizational independence.",
+        "reviewed": true,
+        "source_pr_url": "https://github.com/terryncew/openline-bureau/pull/1"
+      },
+      "record_sha256": "b89a34b1d511fcd4fd2e69abbc228a5b5d827a58575814aded172e4ed140e4d4",
+      "record_url": "submissions/evaluations/synthetic-digest-revision-eval.json",
+      "reproduction": null,
+      "results": [
+        {
+          "case_id": "fixture-1",
+          "outcome": "PASS",
+          "summary": "Invented synthetic outcome for interface testing; no actual execution."
+        },
+        {
+          "case_id": "fixture-2",
+          "outcome": "PASS",
+          "summary": "Invented synthetic outcome for interface testing; no actual execution."
+        },
+        {
+          "case_id": "fixture-3",
+          "outcome": "PASS",
+          "summary": "Invented synthetic outcome for interface testing; no actual execution."
+        }
+      ],
+      "sample": {
+        "dataset": "Three invented fixture strings",
+        "failed": 0,
+        "inconclusive": 0,
+        "passed": 3,
+        "selection": "Synthetic hand-selected examples; not a representative benchmark.",
+        "total": 3
+      },
+      "scope": "CAPABILITY",
+      "synthetic": true,
+      "task": "word count",
+      "worker_id": null
+    },
+    {
+      "capability_id": "synthetic-structured-summary",
+      "capability_version": "1.0.0",
+      "conflicts": "Synthetic identities; no real independence is asserted.",
+      "environment": "Synthetic fixture; no runtime was used.",
+      "evaluator_id": "synthetic-evaluator",
+      "evidence": [],
+      "failures": [
+        "Invented edge case failure; no actual outcome verified."
+      ],
+      "format": "openline.evaluation.v1",
+      "id": "synthetic-summary-eval",
+      "independence": "SEPARATE_REVIEWED_CONTRIBUTOR",
+      "independence_limit": "Separate reviewed GitHub contributors; account control, affiliation and reported conflicts are not independently established.",
+      "limitations": [
+        "All results are synthetic.",
+        "Small selected sample does not establish general performance."
+      ],
+      "method": "Synthetic fixture report. No real execution or independent reproduction occurred.",
+      "outcome_verification": "SYNTHETIC",
+      "public_release": {
+        "authorized": true,
+        "contains_private_data": false,
+        "rights_confirmed": true
+      },
+      "publication": {
+        "identity_basis": "MAINTAINER_ATTESTED_GITHUB_AUTHOR",
+        "identity_limit": "The compiler does not authenticate GitHub authors, legal identity or organizational independence.",
+        "reviewed": true,
+        "source_pr_url": "https://github.com/terryncew/openline-bureau/pull/1"
+      },
+      "record_sha256": "b9fe4208da03a3518f68cf0ecf9de03b187b7133db4c08e0667166f8c3733c51",
+      "record_url": "submissions/evaluations/synthetic-summary-eval.json",
+      "reproduction": null,
+      "results": [
+        {
+          "case_id": "fixture-1",
+          "outcome": "PASS",
+          "summary": "Invented synthetic outcome for interface testing; no actual execution."
+        },
+        {
+          "case_id": "fixture-2",
+          "outcome": "FAIL",
+          "summary": "Invented synthetic outcome for interface testing; no actual execution."
+        },
+        {
+          "case_id": "fixture-3",
+          "outcome": "FAIL",
+          "summary": "Invented synthetic outcome for interface testing; no actual execution."
+        }
+      ],
+      "sample": {
+        "dataset": "Three invented fixture strings",
+        "failed": 2,
+        "inconclusive": 0,
+        "passed": 1,
+        "selection": "Synthetic hand-selected examples; not a representative benchmark.",
+        "total": 3
+      },
+      "scope": "CAPABILITY",
+      "synthetic": true,
+      "task": "structured summary",
+      "worker_id": null
+    }
+  ],
+  "format": "openline.catalog.v1",
+  "policy": {
+    "attribution_limit": "Lineage and author metadata preserve attribution; they do not establish legal ownership or license rights.",
+    "contributed_code_execution": false,
+    "fixture_notice": "Synthetic fixture catalog; no real contributor, independently reproduced outcome, inquiry acceptance or payment.",
+    "inquiries_enabled": false,
+    "payment_processing": false,
+    "ranking": "No universal trust score; compare task-specific sample results, prices and limitations."
+  },
+  "submission": {
+    "catalog_url": "https://raw.githubusercontent.com/terryncew/openline-exchange/feat/openline-public-beta/docs/beta/synthetic/v1/index.json",
+    "contribution_url": "https://github.com/terryncew/openline-bureau/compare",
+    "repository_url": "https://github.com/terryncew/openline-bureau"
+  },
+  "synthetic": true,
+  "workers": [
+    {
+      "capability_ids": [
+        "synthetic-text-digest"
+      ],
+      "contributor_id": "synthetic-alice",
+      "evidence": [],
+      "evidence_summary": {
+        "cryptographic_authenticity": "UNKNOWN",
+        "independent_evaluation_count": 0,
+        "label": "SYNTHETIC",
+        "missing": [
+          "Supporting receipts",
+          "Evaluation from a separate reviewed contributor",
+          "Independent reproduction of task outcomes",
+          "Cryptographic authentication of receipt keys"
+        ],
+        "receipt_count": 0,
+        "reproduced_evaluation_count": 0,
+        "sample_context": [],
+        "scope": "WORKER_EXECUTIONS_ONLY"
+      },
+      "format": "openline.worker.v1",
+      "id": "synthetic-digest-worker",
+      "inquiry": {
+        "accepts_inquiries": false,
+        "url": "https://github.com/terryncew/openline-bureau/issues/new"
+      },
+      "limitations": [
+        "Synthetic identity; not a real person, agent developer or service."
+      ],
+      "name": "Synthetic digest worker",
+      "provenance": {
+        "authors": [
+          "Synthetic fixture; no real contributor"
+        ],
+        "source_revision": null,
+        "source_url": "https://github.com/terryncew/openline-bureau"
+      },
+      "public_release": {
+        "authorized": true,
+        "contains_private_data": false,
+        "rights_confirmed": true
+      },
+      "publication": {
+        "identity_basis": "MAINTAINER_ATTESTED_GITHUB_AUTHOR",
+        "identity_limit": "The compiler does not authenticate GitHub authors, legal identity or organizational independence.",
+        "reviewed": true,
+        "source_pr_url": "https://github.com/terryncew/openline-bureau/pull/1"
+      },
+      "record_sha256": "f3d062dde4f4a81fcfbb5751aa212e339d3afd26873352272c12bc0bb3417e8a",
+      "record_url": "submissions/workers/synthetic-digest-worker.json",
+      "summary": "Synthetic worker fixture. Capability evaluations do not establish worker execution performance.",
+      "synthetic": true
+    },
+    {
+      "capability_ids": [
+        "synthetic-structured-summary"
+      ],
+      "contributor_id": "synthetic-bob",
+      "evidence": [],
+      "evidence_summary": {
+        "cryptographic_authenticity": "UNKNOWN",
+        "independent_evaluation_count": 0,
+        "label": "SYNTHETIC",
+        "missing": [
+          "Supporting receipts",
+          "Evaluation from a separate reviewed contributor",
+          "Independent reproduction of task outcomes",
+          "Cryptographic authentication of receipt keys"
+        ],
+        "receipt_count": 0,
+        "reproduced_evaluation_count": 0,
+        "sample_context": [],
+        "scope": "WORKER_EXECUTIONS_ONLY"
+      },
+      "format": "openline.worker.v1",
+      "id": "synthetic-summary-worker",
+      "inquiry": {
+        "accepts_inquiries": false,
+        "url": "https://github.com/terryncew/openline-bureau/issues/new"
+      },
+      "limitations": [
+        "Synthetic identity; not a real person, agent developer or service."
+      ],
+      "name": "Synthetic summary worker",
+      "provenance": {
+        "authors": [
+          "Synthetic fixture; no real contributor"
+        ],
+        "source_revision": null,
+        "source_url": "https://github.com/terryncew/openline-bureau"
+      },
+      "public_release": {
+        "authorized": true,
+        "contains_private_data": false,
+        "rights_confirmed": true
+      },
+      "publication": {
+        "identity_basis": "MAINTAINER_ATTESTED_GITHUB_AUTHOR",
+        "identity_limit": "The compiler does not authenticate GitHub authors, legal identity or organizational independence.",
+        "reviewed": true,
+        "source_pr_url": "https://github.com/terryncew/openline-bureau/pull/1"
+      },
+      "record_sha256": "b339f21a6a43de3d938d6a829d27ed4125031ea0d3afe8ccf3e363d49dc81d58",
+      "record_url": "submissions/workers/synthetic-summary-worker.json",
+      "summary": "Synthetic worker fixture. Capability evaluations do not establish worker execution performance.",
+      "synthetic": true
+    }
+  ]
+}

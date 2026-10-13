@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/terryncew/openline-bureau/blob/main/catalog/schemas/evaluation.schema.json",
+  "title": "OpenLine public beta evaluation v1",
+  "description": "The data-only Bureau compiler adds URL safety, size budgets, exact digest binding, role and reference checks beyond this shape schema.",
+  "type": "object",
+  "properties": {
+    "format": {
+      "const": "openline.evaluation.v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+    },
+    "public_release": {
+      "type": "object",
+      "properties": {
+        "authorized": {
+          "const": true
+        },
+        "rights_confirmed": {
+          "const": true
+        },
+        "contains_private_data": {
+          "const": false
+        }
+      },
+      "required": [
+        "authorized",
+        "rights_confirmed",
+        "contains_private_data"
+      ],
+      "additionalProperties": false
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+    },
+    "capability_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[a-zA-Z0-9.-]+)?$"
+    },
+    "worker_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[a-z][a-z0-9._-]{1,79}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "evaluator_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 39,
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+    },
+    "task": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "method": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "sample": {
+      "type": "object",
+      "properties": {
+        "dataset": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "selection": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "inconclusive": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        }
+      },
+      "required": [
+        "dataset",
+        "selection",
+        "total",
+        "passed",
+        "failed",
+        "inconclusive"
+      ],
+      "additionalProperties": false
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "outcome": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "INCONCLUSIVE"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "case_id",
+          "outcome",
+          "summary"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 1000
+    },
+    "failures": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "minItems": 0,
+      "maxItems": 100
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "minItems": 0,
+      "maxItems": 50
+    },
+    "environment": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "conflicts": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240,
+            "pattern": "^evidence/[A-Za-z0-9._/-]+\\.json$"
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "format": {
+            "enum": [
+              "bureau.receipt.v0.1",
+              "openline.wallet.effect_receipt.v1",
+              "openline.gate.action_receipt.v1",
+              "openline.catalog.signed-receipt.v1",
+              "openline.exchange.selected-evidence.v1"
+            ]
+          },
+          "public_release": {
+            "type": "object",
+            "properties": {
+              "authorized": {
+                "const": true
+              },
+              "rights_confirmed": {
+                "const": true
+              },
+              "contains_private_data": {
+                "const": false
+              }
+            },
+            "required": [
+              "authorized",
+              "rights_confirmed",
+              "contains_private_data"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "path",
+          "sha256",
+          "format",
+          "public_release"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 100
+    }
+  },
+  "required": [
+    "format",
+    "id",
+    "public_release",
+    "synthetic",
+    "capability_id",
+    "capability_version",
+    "worker_id",
+    "evaluator_id",
+    "task",
+    "method",
+    "sample",
+    "results",
+    "failures",
+    "limitations",
+    "environment",
+    "conflicts",
+    "evidence"
+  ],
+  "additionalProperties": false
+}

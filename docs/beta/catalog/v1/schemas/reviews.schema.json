@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/terryncew/openline-bureau/blob/main/catalog/schemas/reviews.schema.json",
+  "title": "OpenLine public beta reviews v1",
+  "description": "The data-only Bureau compiler adds URL safety, size budgets, exact digest binding, role and reference checks beyond this shape schema.",
+  "type": "object",
+  "properties": {
+    "format": {
+      "const": "openline.catalog.reviews.v1"
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "repository_url": {
+          "const": "https://github.com/terryncew/openline-bureau"
+        },
+        "contribution_url": {
+          "const": "https://github.com/terryncew/openline-bureau/compare"
+        },
+        "catalog_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://[^\\s]+$"
+        },
+        "inquiries_enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "repository_url",
+        "contribution_url",
+        "catalog_url",
+        "inquiries_enabled"
+      ],
+      "additionalProperties": false
+    },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240,
+            "pattern": "^submissions/(capabilities|workers|evaluations)/[A-Za-z0-9._-]+\\.json$"
+          },
+          "record_sha256": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "github_author": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 39,
+            "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+          },
+          "source_pr_url": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "pattern": "^https://github\\.com/terryncew/openline-bureau/pull/[1-9][0-9]*$"
+          },
+          "public_disclosure_reviewed": {
+            "const": true
+          },
+          "evidence_sha256": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240,
+              "pattern": "^evidence/[A-Za-z0-9._/-]+\\.json$"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "maxProperties": 100
+          },
+          "reproduction": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240,
+                    "pattern": "^reproductions/[A-Za-z0-9._/-]+\\.json$"
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                },
+                "required": [
+                  "path",
+                  "sha256"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "path",
+          "record_sha256",
+          "github_author",
+          "source_pr_url",
+          "public_disclosure_reviewed",
+          "evidence_sha256",
+          "reproduction"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 2000
+    }
+  },
+  "required": [
+    "format",
+    "policy",
+    "reviews"
+  ],
+  "additionalProperties": false
+}

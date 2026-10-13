@@ -1,0 +1,51 @@
+{
+  "format": "openline.evaluation.v1",
+  "id": "synthetic-digest-original-eval",
+  "capability_id": "synthetic-text-digest",
+  "capability_version": "1.0.0",
+  "worker_id": null,
+  "evaluator_id": "synthetic-evaluator",
+  "task": "word count",
+  "method": "Synthetic fixture report. No real execution or independent reproduction occurred.",
+  "sample": {
+    "dataset": "Three invented fixture strings",
+    "selection": "Synthetic hand-selected examples; not a representative benchmark.",
+    "total": 3,
+    "passed": 2,
+    "failed": 1,
+    "inconclusive": 0
+  },
+  "results": [
+    {
+      "case_id": "fixture-1",
+      "outcome": "PASS",
+      "summary": "Invented synthetic outcome for interface testing; no actual execution."
+    },
+    {
+      "case_id": "fixture-2",
+      "outcome": "PASS",
+      "summary": "Invented synthetic outcome for interface testing; no actual execution."
+    },
+    {
+      "case_id": "fixture-3",
+      "outcome": "FAIL",
+      "summary": "Invented synthetic outcome for interface testing; no actual execution."
+    }
+  ],
+  "failures": [
+    "Invented edge case failure; no actual outcome verified."
+  ],
+  "limitations": [
+    "All results are synthetic.",
+    "Small selected sample does not establish general performance."
+  ],
+  "environment": "Synthetic fixture; no runtime was used.",
+  "conflicts": "Synthetic identities; no real independence is asserted.",
+  "evidence": [],
+  "public_release": {
+    "authorized": true,
+    "rights_confirmed": true,
+    "contains_private_data": false
+  },
+  "synthetic": true
+}

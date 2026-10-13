@@ -1,49 +1,19 @@
-name: openline-exchange Pages
-
+name: Legacy receipt check (manual, no deployment)
 on:
-  push:
-    branches: [ "main" ]
   workflow_dispatch:
-
 permissions:
-  contents: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: olx-pages
-  cancel-in-progress: false
-
+  contents: read
 jobs:
-  deploy:
+  check:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy-pages.outputs.page_url }}
-
     steps:
       - uses: actions/checkout@v4
-
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-
-      - name: Ensure dirs
-        run: mkdir -p docs scripts
-
-      - name: Verify v1.2 receipt (non-blocking)
-        run: |
-          if [ -f scripts/verify_receipt_v12.py ]; then
-            python scripts/verify_receipt_v12.py || true
-          else
-            echo '{"verified": false, "reason": "no verifier"}' > docs/status.json
-          fi
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs
-
-      - name: Deploy to Pages
-        id: deploy-pages
-        uses: actions/deploy-pages@v4
+          python-version: '3.12'
+      - name: Legacy structure check only
+        run: python scripts/verify_receipt_v12.py
+      - name: Validate beta independently
+        run: python scripts/validate_beta.py

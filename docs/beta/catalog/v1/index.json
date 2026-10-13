@@ -1,0 +1,19 @@
+{
+  "capabilities": [],
+  "evaluations": [],
+  "format": "openline.catalog.v1",
+  "policy": {
+    "attribution_limit": "Lineage and author metadata preserve attribution; they do not establish legal ownership or license rights.",
+    "contributed_code_execution": false,
+    "inquiries_enabled": false,
+    "payment_processing": false,
+    "ranking": "No universal trust score; compare task-specific sample results, prices and limitations."
+  },
+  "submission": {
+    "catalog_url": "https://raw.githubusercontent.com/terryncew/openline-exchange/feat/openline-public-beta/docs/beta/catalog/v1/index.json",
+    "contribution_url": "https://github.com/terryncew/openline-bureau/compare",
+    "repository_url": "https://github.com/terryncew/openline-bureau"
+  },
+  "synthetic": false,
+  "workers": []
+}

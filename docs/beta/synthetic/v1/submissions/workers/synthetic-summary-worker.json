@@ -1,0 +1,30 @@
+{
+  "format": "openline.worker.v1",
+  "id": "synthetic-summary-worker",
+  "name": "Synthetic summary worker",
+  "summary": "Synthetic worker fixture. Capability evaluations do not establish worker execution performance.",
+  "contributor_id": "synthetic-bob",
+  "capability_ids": [
+    "synthetic-structured-summary"
+  ],
+  "provenance": {
+    "source_url": "https://github.com/terryncew/openline-bureau",
+    "source_revision": null,
+    "authors": [
+      "Synthetic fixture; no real contributor"
+    ]
+  },
+  "inquiry": {
+    "url": "https://github.com/terryncew/openline-bureau/issues/new",
+    "accepts_inquiries": false
+  },
+  "limitations": [
+    "Synthetic identity; not a real person, agent developer or service."
+  ],
+  "public_release": {
+    "authorized": true,
+    "rights_confirmed": true,
+    "contains_private_data": false
+  },
+  "synthetic": true
+}

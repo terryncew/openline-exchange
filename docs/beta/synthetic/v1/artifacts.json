@@ -1,0 +1,69 @@
+{
+  "artifacts": [
+    {
+      "path": "evidence/synthetic-digest-receipt.json",
+      "sha256": "86a40de2ae70c1ba940072c90f76a468fa0f7358e83389c405f73bee5de2e2e9"
+    },
+    {
+      "path": "schemas/capability.schema.json",
+      "sha256": "76de0f82814c617da4c7147787c2b5c80af04f4ec09c7b863609776c59049771"
+    },
+    {
+      "path": "schemas/catalog.schema.json",
+      "sha256": "0716cf7a5d2721fc8f6e846a6a452bc952ab3b2615c2113226d4786aa5e4483c"
+    },
+    {
+      "path": "schemas/evaluation.schema.json",
+      "sha256": "dcc08e3b676c8059fa96b29610e5924bfa6e9d7a5cdeb995c1329ada29d21dfa"
+    },
+    {
+      "path": "schemas/reproduction.schema.json",
+      "sha256": "80894f49e4b5b50e3165e58e6326ee3a3b3328a9b9d5967a64e49f072f5dd477"
+    },
+    {
+      "path": "schemas/reviews.schema.json",
+      "sha256": "c6ffb828dc84b429cc2dd8139c6810c3c1e529a3b84562a4f3786fda6a3e6059"
+    },
+    {
+      "path": "schemas/worker.schema.json",
+      "sha256": "2758704fac12a2fc6da7ce38603204600130659ff9dadd7705bb0ce6e96034ae"
+    },
+    {
+      "path": "submissions/capabilities/structured-summary-1.0.0.json",
+      "sha256": "af3145ac2345c5d338e6320d603fa78d443c5d04029fea19d771be6094c6ce50"
+    },
+    {
+      "path": "submissions/capabilities/text-digest-1.0.0.json",
+      "sha256": "20ca591a9fc6661cefdb72de0e5b87bbb99eb981d1d973d9676b89f6b65fdba1"
+    },
+    {
+      "path": "submissions/capabilities/text-digest-1.1.0.json",
+      "sha256": "d31814ea5e560cc316561775255fadcf0d2bb32ce7090220313aac11e7468843"
+    },
+    {
+      "path": "submissions/evaluations/synthetic-digest-original-eval.json",
+      "sha256": "e20b0ad23a17566f7425758e900c4a9bc2e2335adaed807456229369f0a62c71"
+    },
+    {
+      "path": "submissions/evaluations/synthetic-digest-revision-eval.json",
+      "sha256": "b89a34b1d511fcd4fd2e69abbc228a5b5d827a58575814aded172e4ed140e4d4"
+    },
+    {
+      "path": "submissions/evaluations/synthetic-summary-eval.json",
+      "sha256": "b9fe4208da03a3518f68cf0ecf9de03b187b7133db4c08e0667166f8c3733c51"
+    },
+    {
+      "path": "submissions/workers/synthetic-digest-worker.json",
+      "sha256": "f3d062dde4f4a81fcfbb5751aa212e339d3afd26873352272c12bc0bb3417e8a"
+    },
+    {
+      "path": "submissions/workers/synthetic-summary-worker.json",
+      "sha256": "b339f21a6a43de3d938d6a829d27ed4125031ea0d3afe8ccf3e363d49dc81d58"
+    }
+  ],
+  "catalog": {
+    "path": "index.json",
+    "sha256": "ad63ec094598439b2075b15ea09d0f4d454140d401f2e7c0c7f142caafb111b2"
+  },
+  "format": "openline.catalog.artifacts.v1"
+}
