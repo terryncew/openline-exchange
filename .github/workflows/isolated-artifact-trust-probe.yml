@@ -1,0 +1,77 @@
+name: Independent static artifact trust-boundary probe (no publishing)
+on:
+  push:
+    branches:
+      - ci/exchange-forged-artifact-probe-001
+permissions:
+  contents: read
+jobs:
+  negative-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Assert frozen beta source; only the isolated audit workflow differs
+        run: |
+          set -eu
+          git merge-base --is-ancestor abf1d3a25182b56b7a9312d79285b2b8ed2fd190 HEAD
+          test "$(git diff --name-only abf1d3a25182b56b7a9312d79285b2b8ed2fd190 HEAD)" = '.github/workflows/isolated-artifact-trust-probe.yml'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Probe coherent unreviewed artifact against standalone validator
+        run: |
+          python - <<'PY'
+            from pathlib import Path
+            import tempfile, shutil, json, hashlib
+            from scripts.validate_beta import validate
+            
+            def digest(data):
+                return hashlib.sha256(data).hexdigest()
+            
+            with tempfile.TemporaryDirectory(prefix='openline-forgery-probe-') as tmp:
+                source = Path('docs/beta')
+                site = Path(tmp) / 'beta'
+                shutil.copytree(source, site)
+                assert validate(site)['capabilities'] == 0
+            
+                record_relative = 'catalog/v1/submissions/capabilities/forged.json'
+                forged_bytes = b'{"unapproved":true,"real_world_result":"I won"}\\n'
+                record_file = site / record_relative
+                record_file.parent.mkdir(parents=True, exist_ok=True)
+                record_file.write_bytes(forged_bytes)
+                record_hash = digest(forged_bytes)
+            
+                index_file = site / 'catalog/v1/index.json'
+                index = json.loads(index_file.read_text())
+                index['capabilities'].append({
+                  'id':'forged-victim','version':'1.0.0','name':'UNREVIEWED FORGED CAPABILITY',
+                  'tasks':['text digest'],'synthetic':False,'price':None,'evidence':[],
+                  'record_url':'submissions/capabilities/forged.json',
+                  'record_sha256':record_hash,'publication':{'reviewed':True},
+                  'evidence_summary':{'label':'SELF_REPORTED','missing':['Actual review']}
+                })
+                index_file.write_text(json.dumps(index, sort_keys=True)+'\\n')
+            
+                ledger_file = site / 'catalog/v1/artifacts.json'
+                ledger = json.loads(ledger_file.read_text())
+                ledger['artifacts'].append({'path':'submissions/capabilities/forged.json','sha256':record_hash})
+                ledger['catalog']['sha256'] = digest(index_file.read_bytes())
+                ledger_file.write_text(json.dumps(ledger, sort_keys=True)+'\\n')
+            
+                manifest_file = site / 'build-manifest.json'
+                manifest = json.loads(manifest_file.read_text())
+                for name in [record_relative,'catalog/v1/index.json','catalog/v1/artifacts.json']:
+                    manifest['files'][name] = digest((site/name).read_bytes())
+                manifest_file.write_text(json.dumps(manifest, sort_keys=True)+'\\n')
+            
+                result=validate(site)
+                assert result['capabilities']==1, result
+                print('CONFIRMED: A coherent but unapproved forged listing passes standalone static hash checks.')
+                print('This is NOT evidence of a bypass of Bureau trusted compilation or protected release.')
+                print('RELEASE REQUIREMENT: Compare committed static site with separately reviewed/pinned Bureau rebuild.')
+            
+          PY
